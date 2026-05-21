@@ -1,0 +1,301 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Household;
+use App\Models\HouseholdInvitation;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class HouseholdController extends Controller
+{
+    /**
+     * Display household info
+     */
+    public function index()
+    {
+        $household = auth()->user()->household;
+        $members = User::where('household_id', $household->id)->get();
+        $invitations = HouseholdInvitation::where('household_id', $household->id)
+            ->where('status', 'pending')
+            ->get();
+
+        return view('household.index', compact('household', 'members', 'invitations'));
+    }
+
+    /**
+     * Dedicated members management page
+     */
+    public function members()
+    {
+        $household = auth()->user()->household;
+        $members = User::where('household_id', $household->id)->get();
+        $invitations = HouseholdInvitation::where('household_id', $household->id)
+            ->where('status', 'pending')
+            ->get();
+
+        return view('household.members', compact('household', 'members', 'invitations'));
+    }
+
+    /**
+     * Update household info
+     */
+    public function update(Request $request, Household $household)
+    {
+        // Check if user is owner
+        if ($household->owner_id !== auth()->id()) {
+            abort(403, 'Only household owner can update household info');
+        }
+
+        $request->validate([
+            'nama' => 'required|string|max:255',
+        ]);
+
+        try {
+            $household->update(['nama' => $request->nama]);
+
+            return back()->with('success', 'Informasi household berhasil diperbarui');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui household: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Invite member to household
+     */
+    public function invite(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $household = auth()->user()->household;
+
+        // Check if user is owner
+        if ($household->owner_id !== auth()->id()) {
+            abort(403, 'Only household owner can invite members');
+        }
+
+        try {
+            // Check if user exists
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user) {
+                return back()->with('error', 'User dengan email tersebut tidak ditemukan');
+            }
+
+            // Check if user already in a household
+            if ($user->household_id) {
+                return back()->with('error', 'User sudah tergabung dalam household lain');
+            }
+
+            // Check if invitation already exists
+            $existingInvitation = HouseholdInvitation::where('household_id', $household->id)
+                ->where('email', $request->email)
+                ->where('status', 'pending')
+                ->first();
+
+            if ($existingInvitation) {
+                return back()->with('error', 'Undangan sudah dikirim sebelumnya');
+            }
+
+            // Create invitation
+            $invitation = HouseholdInvitation::create([
+                'household_id' => $household->id,
+                'email' => $request->email,
+                'token' => Str::random(32),
+                'status' => 'pending',
+                'expired_at' => now()->addDays(7),
+            ]);
+
+            // Send notification to invited user
+            \App\Models\Notifikasi::create([
+                'household_id' => $household->id,
+                'user_id' => $user->id,
+                'judul' => 'Undangan Household',
+                'pesan' => "Anda diundang untuk bergabung dengan household '{$household->nama}'",
+                'jenis' => 'sistem',
+                'is_read' => false,
+            ]);
+
+            return back()->with('success', 'Undangan berhasil dikirim');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal mengirim undangan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Join household via token (form submission from household.index)
+     */
+    public function join(Request $request)
+    {
+        $request->validate(['token' => 'required|string']);
+
+        $invitation = HouseholdInvitation::where('token', $request->token)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$invitation) {
+            return back()->with('error', 'Token undangan tidak valid atau sudah digunakan');
+        }
+
+        if ($invitation->expired_at < now()) {
+            $invitation->update(['status' => 'expired']);
+            return back()->with('error', 'Undangan sudah kadaluarsa');
+        }
+
+        try {
+            auth()->user()->update(['household_id' => $invitation->household_id]);
+            $invitation->update(['status' => 'accepted']);
+
+            return redirect()->route('dashboard')->with('success', 'Berhasil bergabung dengan household');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal bergabung: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Accept invitation
+     */
+    public function acceptInvitation(Request $request, $token)
+    {
+        $invitation = HouseholdInvitation::where('token', $token)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$invitation) {
+            return redirect()->route('dashboard')->with('error', 'Undangan tidak valid');
+        }
+
+        if ($invitation->expired_at < now()) {
+            $invitation->update(['status' => 'expired']);
+            return redirect()->route('dashboard')->with('error', 'Undangan sudah kadaluarsa');
+        }
+
+        try {
+            // Update user household
+            auth()->user()->update(['household_id' => $invitation->household_id]);
+
+            // Update invitation status
+            $invitation->update(['status' => 'accepted']);
+
+            return redirect()->route('dashboard')->with('success', 'Berhasil bergabung dengan household');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->with('error', 'Gagal bergabung: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Reject invitation
+     */
+    public function rejectInvitation($token)
+    {
+        $invitation = HouseholdInvitation::where('token', $token)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$invitation) {
+            return back()->with('error', 'Undangan tidak valid');
+        }
+
+        $invitation->update(['status' => 'rejected']);
+
+        return back()->with('success', 'Undangan ditolak');
+    }
+
+    /**
+     * Update member role
+     */
+    public function updateRole(Request $request, User $user)
+    {
+        $household = auth()->user()->household;
+
+        if ($household->owner_id !== auth()->id()) {
+            abort(403, 'Only household owner can update member roles');
+        }
+
+        if ($user->id === $household->owner_id) {
+            return back()->with('error', 'Tidak dapat mengubah role owner');
+        }
+
+        if ($user->household_id !== $household->id) {
+            return back()->with('error', 'User bukan anggota household ini');
+        }
+
+        $request->validate([
+            'role' => 'required|in:member,admin',
+        ]);
+
+        $user->update(['role' => $request->role]);
+
+        return back()->with('success', 'Role berhasil diperbarui');
+    }
+
+    /**
+     * Remove member from household
+     */
+    public function removeMember(User $user)
+    {
+        $household = auth()->user()->household;
+
+        // Check if user is owner
+        if ($household->owner_id !== auth()->id()) {
+            abort(403, 'Only household owner can remove members');
+        }
+
+        // Can't remove owner
+        if ($user->id === $household->owner_id) {
+            return back()->with('error', 'Tidak dapat menghapus owner household');
+        }
+
+        // Can't remove user from different household
+        if ($user->household_id !== $household->id) {
+            return back()->with('error', 'User bukan anggota household ini');
+        }
+
+        try {
+            // Create new household for removed user
+            $newHousehold = Household::create([
+                'nama' => $user->name . "'s Household",
+                'owner_id' => $user->id,
+            ]);
+
+            // Move user to new household
+            $user->update(['household_id' => $newHousehold->id]);
+
+            return back()->with('success', 'Member berhasil dihapus dari household');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus member: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Leave household
+     */
+    public function leave()
+    {
+        $user = auth()->user();
+        $household = $user->household;
+
+        // Owner can't leave, must transfer ownership first
+        if ($household->owner_id === $user->id) {
+            return back()->with('error', 'Owner tidak dapat keluar. Transfer ownership terlebih dahulu');
+        }
+
+        try {
+            // Create new household for user
+            $newHousehold = Household::create([
+                'nama' => $user->name . "'s Household",
+                'owner_id' => $user->id,
+            ]);
+
+            // Move user to new household
+            $user->update(['household_id' => $newHousehold->id]);
+
+            return redirect()->route('dashboard')->with('success', 'Berhasil keluar dari household');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal keluar dari household: ' . $e->getMessage());
+        }
+    }
+}

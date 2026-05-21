@@ -1,0 +1,47 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Household;
+use App\Models\Plan;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class AdminUserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $plan = Plan::where('slug', 'premium')->first()
+            ?? Plan::where('slug', 'free')->first()
+            ?? Plan::first();
+
+        $household = Household::firstOrCreate(
+            ['slug' => 'rumah-admin'],
+            [
+                'nama' => 'Rumah Admin',
+                'plan_id' => $plan?->id,
+                'subscription_start' => now()->toDateString(),
+                'subscription_end' => null,
+                'status' => 'active',
+            ]
+        );
+
+        if ($plan && ! $household->plan_id) {
+            $household->update(['plan_id' => $plan->id]);
+        }
+
+        User::updateOrCreate(
+            ['email' => 'admin@finanku.test'],
+            [
+                'name' => 'Admin Finanku',
+                'password' => 'password',
+                'household_id' => $household->id,
+                'role' => 'owner',
+                'is_active' => true,
+            ]
+        );
+    }
+}
