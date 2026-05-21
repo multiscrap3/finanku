@@ -88,8 +88,8 @@ class ProfileController extends Controller
             $user = auth()->user();
 
             // Delete old photo if exists
-            if ($user->photo && file_exists(public_path('storage/' . $user->photo))) {
-                unlink(public_path('storage/' . $user->photo));
+            if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
             }
 
             // Store new photo
@@ -111,8 +111,8 @@ class ProfileController extends Controller
         try {
             $user = auth()->user();
 
-            if ($user->photo && file_exists(public_path('storage/' . $user->photo))) {
-                unlink(public_path('storage/' . $user->photo));
+            if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
             }
 
             $user->update(['photo' => null]);
@@ -154,8 +154,8 @@ class ProfileController extends Controller
             // PDP F2 & F3: hapus semua file fisik milik user sebelum delete akun
 
             // Foto profil
-            if ($user->photo && file_exists(public_path('storage/' . $user->photo))) {
-                unlink(public_path('storage/' . $user->photo));
+            if ($user->photo && Storage::disk('public')->exists($user->photo)) {
+                Storage::disk('public')->delete($user->photo);
             }
 
             // File OCR (gambar struk) — PDP F3
