@@ -25,3 +25,17 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Internal documentation (jangan expose ke publik)
+CONTEXT.md
+PROMPT.md
+DEPLOYMENT_CHECKLIST.md
+MIGRATION.md
+VERSIONING.md
+PDP_CHECKLIST.md
+README_SETUP.md
+*_PROGRESS.md
+*_COMPLETE.md
+*_UPDATE.md
+*_FINAL.md
+*_LATEST.md
