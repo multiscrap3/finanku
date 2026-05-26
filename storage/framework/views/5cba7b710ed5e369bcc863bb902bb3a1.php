@@ -1,5 +1,5 @@
-<?php $__env->startSection('title', 'Dashboard'); ?>
-<?php $__env->startSection('page-title', 'Dashboard'); ?>
+<?php $__env->startSection('title', __('dashboard.title')); ?>
+<?php $__env->startSection('page-title', __('dashboard.title')); ?>
 
 <?php $__env->startPush('styles'); ?>
 <style>
@@ -174,20 +174,20 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
 <div class="d-flex justify-content-between align-items-center mt-2 mb-4">
     <div>
-        <h5 class="fw-bold mb-0">Selamat datang, <?php echo e(auth()->user()->name); ?>!</h5>
+        <h5 class="fw-bold mb-0"><?php echo e(__('dashboard.welcome', ['name' => auth()->user()->name])); ?></h5>
         <p class="text-muted small mb-0"><?php echo e(now()->translatedFormat('l, d F Y')); ?></p>
     </div>
     <div class="d-flex gap-2">
         <button type="button" id="btnEditLayout"
                 class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
             <i class="bi bi-grid"></i>
-            <span class="d-none d-sm-inline">Edit Layout</span>
+            <span class="d-none d-sm-inline"><?php echo e(__('dashboard.edit_layout')); ?></span>
         </button>
         <button type="button"
                 class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasCustomize">
             <i class="bi bi-sliders"></i>
-            <span class="d-none d-sm-inline">Kustomisasi</span>
+            <span class="d-none d-sm-inline"><?php echo e(__('dashboard.customize')); ?></span>
         </button>
     </div>
 </div>
@@ -211,7 +211,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
                 <span><?php echo e($def['label']); ?></span>
             </div>
 
-            <button type="button" class="widget-hide-btn" title="Sembunyikan"
+            <button type="button" class="widget-hide-btn" title="<?php echo e(__('dashboard.hide')); ?>"
                     data-widget-id="<?php echo e($widget['id']); ?>">
                 <i class="bi bi-eye-slash"></i>
             </button>
@@ -226,19 +226,22 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
 <div id="editToolbar">
     <i class="bi bi-arrows-move text-primary"></i>
-    <span>Drag widget untuk atur posisi</span>
+    <span><?php echo e(__('dashboard.drag_info')); ?></span>
     <div class="tb-div"></div>
     <button type="button" id="btnResetInline"
             class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.76rem;">
-        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+        <i class="bi bi-arrow-counterclockwise me-1"></i><?php echo e(__('dashboard.reset')); ?>
+
     </button>
     <button type="button" id="btnCancelEdit"
             class="btn btn-sm btn-outline-danger py-1 px-2" style="font-size:.76rem;">
-        Batal
+        <?php echo e(__('dashboard.cancel')); ?>
+
     </button>
     <button type="button" id="btnSaveInline"
             class="btn btn-sm btn-primary py-1 px-2" style="font-size:.76rem;">
-        <i class="bi bi-check2 me-1"></i>Simpan
+        <i class="bi bi-check2 me-1"></i><?php echo e(__('dashboard.save')); ?>
+
     </button>
 </div>
 
@@ -248,7 +251,8 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
     <div class="offcanvas-header border-bottom">
         <h6 class="offcanvas-title fw-bold" id="offcanvasCustomizeLabel">
-            <i class="bi bi-sliders me-2 text-primary"></i>Kustomisasi Dashboard
+            <i class="bi bi-sliders me-2 text-primary"></i><?php echo e(__('dashboard.customize_dashboard')); ?>
+
         </h6>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
@@ -258,13 +262,15 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
         
         <div class="px-4 py-3 bg-light border-bottom">
             <p class="text-muted small mb-2 lh-sm">
-                Drag <i class="bi bi-grip-vertical"></i> untuk urutan &nbsp;·&nbsp;
-                Toggle untuk sembunyikan &nbsp;·&nbsp;
-                Atur lebar &amp; tinggi tiap widget
+                <?php echo e(__('dashboard.drag_to_reorder')); ?> <i class="bi bi-grip-vertical"></i> &nbsp;·&nbsp;
+                <?php echo e(__('dashboard.toggle_hide')); ?> &nbsp;·&nbsp;
+                <?php echo e(__('dashboard.adjust_size')); ?>
+
             </p>
             <button type="button" id="btnResetDefault"
                     class="btn btn-sm btn-outline-secondary w-100">
-                <i class="bi bi-arrow-counterclockwise me-1"></i>Reset ke Layout Default
+                <i class="bi bi-arrow-counterclockwise me-1"></i><?php echo e(__('dashboard.reset_default')); ?>
+
             </button>
         </div>
 
@@ -302,7 +308,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
                         
                         <div class="d-flex align-items-center gap-2 px-4 py-1">
-                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;">Lebar</span>
+                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;"><?php echo e(__('dashboard.width')); ?></span>
                             <div class="btn-group size-btn-group" role="group"
                                  data-control="width" data-widget-id="<?php echo e($widget['id']); ?>">
                                 <?php $__currentLoopData = ['small' => '¼', 'medium' => '½', 'large' => '¾', 'full' => 'Full']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -319,7 +325,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
                         
                         <div class="d-flex align-items-center gap-2 px-4 pt-1 pb-3">
-                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;">Tinggi</span>
+                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;"><?php echo e(__('dashboard.height')); ?></span>
                             <div class="btn-group size-btn-group" role="group"
                                  data-control="height" data-widget-id="<?php echo e($widget['id']); ?>">
                                 <?php $__currentLoopData = ['auto' => 'Auto', 'compact' => 'S', 'normal' => 'M', 'tall' => 'L']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -342,7 +348,8 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
         
         <div class="px-4 py-3 border-top">
             <button type="button" id="btnSaveLayout" class="btn btn-primary w-100 fw-semibold">
-                <i class="bi bi-check2-circle me-1"></i>Simpan Layout
+                <i class="bi bi-check2-circle me-1"></i><?php echo e(__('dashboard.save_layout')); ?>
+
             </button>
         </div>
 
@@ -492,7 +499,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
     });
 
     document.getElementById('btnResetInline').addEventListener('click', function () {
-        if (!confirm('Reset urutan, ukuran dan visibilitas ke default?')) return;
+        if (!confirm('<?php echo e(__('dashboard.reset_size_confirm')); ?>')) return;
         applyDefaultLayout();
     });
 
@@ -502,7 +509,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
     // ── Offcanvas: reset & save ───────────────────────────────────────────
     document.getElementById('btnResetDefault').addEventListener('click', function () {
-        if (!confirm('Reset layout ke default? Semua kustomisasi akan hilang.')) return;
+        if (!confirm('<?php echo e(__('dashboard.reset_confirm')); ?>')) return;
         applyDefaultLayout();
     });
 
@@ -651,8 +658,8 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
         data: {
             labels: <?php echo json_encode($summary['chart_data']['labels']); ?>,
             datasets: [
-                { label: 'Pemasukan',   data: <?php echo json_encode($summary['chart_data']['pemasukan']); ?>,   borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-                { label: 'Pengeluaran', data: <?php echo json_encode($summary['chart_data']['pengeluaran']); ?>, borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,0.08)',   tension: 0.4, fill: true, pointRadius: 4 },
+                { label: '<?php echo e(__('dashboard.income')); ?>',   data: <?php echo json_encode($summary['chart_data']['pemasukan']); ?>,   borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+                { label: '<?php echo e(__('dashboard.expense')); ?>', data: <?php echo json_encode($summary['chart_data']['pengeluaran']); ?>, borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,0.08)',   tension: 0.4, fill: true, pointRadius: 4 },
             ],
         },
         options: {

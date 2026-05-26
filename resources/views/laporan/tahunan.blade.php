@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Tahunan')
-@section('page-title', 'Laporan Tahunan')
+@section('title', __('laporan.yearly'))
+@section('page-title', __('laporan.yearly'))
 
 @section('content')
 <div class="row g-4">
@@ -13,7 +13,7 @@
                 <form method="GET">
                     <div class="row g-2 align-items-end">
                         <div class="col-6 col-sm-auto">
-                            <label class="form-label small fw-medium text-muted mb-1">Tahun</label>
+                            <label class="form-label small fw-medium text-muted mb-1">{{ __('laporan.year') }}</label>
                             <select name="tahun" class="form-select form-select-sm">
                                 @foreach(range(now()->year, now()->year - 5) as $y)
                                     <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
@@ -21,7 +21,7 @@
                             </select>
                         </div>
                         <div class="col-6 col-sm-auto">
-                            <button type="submit" class="btn btn-primary btn-sm w-100">Tampilkan</button>
+                            <button type="submit" class="btn btn-primary btn-sm w-100">{{ __('messages.apply') }}</button>
                         </div>
                     </div>
                 </form>
@@ -34,7 +34,7 @@
         <div class="col-6 col-md-3">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #10b981;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Total Pemasukan</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.total') }} {{ __('laporan.income') }}</div>
                     <div class="fw-bold fs-6 text-success">Rp {{ number_format($data['total_pemasukan'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
         <div class="col-6 col-md-3">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #ef4444;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Total Pengeluaran</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.total') }} {{ __('laporan.expense') }}</div>
                     <div class="fw-bold fs-6 text-danger">Rp {{ number_format($data['total_pengeluaran'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
         <div class="col-6 col-md-3">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #3b82f6;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Cashflow</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.balance') }}</div>
                     <div class="fw-bold fs-6 text-primary">Rp {{ number_format($data['cashflow'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
             <div class="col-12">
                 <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                     <div class="card-body p-4">
-                        <h6 class="fw-semibold mb-4">Tren per Bulan</h6>
+                        <h6 class="fw-semibold mb-4">{{ __('laporan.trend') }} {{ __('laporan.by_category') }}</h6>
                         <canvas id="chartBulanan" height="100"></canvas>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
             <div class="col-12">
                 <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                     <div class="card-header bg-white border-bottom py-3 px-4" style="border-radius:.75rem .75rem 0 0;">
-                        <h6 class="fw-semibold mb-0">Ringkasan per Bulan</h6>
+                        <h6 class="fw-semibold mb-0">{{ __('laporan.summary') }}</h6>
                     </div>
                     <div class="card-body p-0">
                         @foreach($data['per_bulan'] as $b => $row)
@@ -114,13 +114,13 @@
             labels: {!! json_encode(collect($data['per_bulan'])->keys()->map(fn($b) => \Carbon\Carbon::create(null, (int)$b, 1)->translatedFormat('MMM'))->values()) !!},
             datasets: [
                 {
-                    label: 'Pemasukan',
+                    label: '{{ __('laporan.income') }}',
                     data: {!! json_encode(collect($data['per_bulan'])->pluck('pemasukan')->values()) !!},
                     backgroundColor: '#10B981',
                     borderRadius: 4,
                 },
                 {
-                    label: 'Pengeluaran',
+                    label: '{{ __('laporan.expense') }}',
                     data: {!! json_encode(collect($data['per_bulan'])->pluck('pengeluaran')->values()) !!},
                     backgroundColor: '#EF4444',
                     borderRadius: 4,

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Models\SumberTransaksi;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
@@ -100,18 +103,21 @@ class SettingController extends Controller
      */
     public function updatePreferences(Request $request)
     {
+        $supported = \App\Http\Middleware\LocaleMiddleware::SUPPORTED_LOCALES;
+
         $request->validate([
             'theme'           => 'nullable|in:light,dark,system',
-            'language'        => 'nullable|string|max:10',
+            'language'        => 'nullable|string|in:' . implode(',', $supported),
             'ai_opt_out'      => 'nullable|boolean',
             'ai_ocr_opt_out'  => 'nullable|boolean',
         ]);
 
         try {
             $householdId = auth()->user()->household_id;
+            $language    = $request->input('language', 'id');
             $data = [
                 'theme'          => $request->input('theme', 'light'),
-                'language'       => $request->input('language', 'id'),
+                'language'       => $language,
                 'ai_opt_out'     => $request->boolean('ai_opt_out') ? '1' : '0',
                 'ai_ocr_opt_out' => $request->boolean('ai_ocr_opt_out') ? '1' : '0',
             ];
@@ -123,9 +129,50 @@ class SettingController extends Controller
                 );
             }
 
-            return back()->with('success', 'Preferensi berhasil disimpan.');
+            // Apply locale immediately for this response & store in session
+            app()->setLocale($language);
+            session(['locale' => $language]);
+
+            return back()->with('success', __('settings.save') . ' — ' . __('messages.success'));
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal menyimpan preferensi: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Reset all transaction data for the current household.
+     * Permanently deletes every Transaksi record (including soft-deleted)
+     * and zeroes out saldo_saat_ini on all SumberTransaksi so the
+     * dashboard shows a clean 0 balance after the reset.
+     */
+    public function resetTransaksiData(Request $request)
+    {
+        $request->validate([
+            'confirm_word' => 'required|string',
+        ]);
+
+        if ($request->input('confirm_word') !== __('settings.reset_data_confirm_word')) {
+            return back()->with('error', __('messages.error'));
+        }
+
+        try {
+            $householdId = auth()->user()->household_id;
+
+            DB::transaction(function () use ($householdId) {
+                // Hard-delete all transaksi (including soft-deleted rows)
+                Transaksi::withTrashed()
+                    ->where('household_id', $householdId)
+                    ->forceDelete();
+
+                SumberTransaksi::withTrashed()
+                    ->where('household_id', $householdId)
+                    ->update(['saldo_saat_ini' => 0]);
+            });
+
+            return redirect()->route('settings.index', ['tab' => 'privasi'])
+                ->with('success', __('settings.reset_data_success'));
+        } catch (\Exception $e) {
+            return back()->with('error', __('messages.error') . ': ' . $e->getMessage());
         }
     }
 

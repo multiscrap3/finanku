@@ -1,5 +1,5 @@
-<?php $__env->startSection('title', 'Import Mutasi Bank'); ?>
-<?php $__env->startSection('page-title', 'Import Mutasi Bank'); ?>
+<?php $__env->startSection('title', __('import.title')); ?>
+<?php $__env->startSection('page-title', __('import.title')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="row g-4">
@@ -107,7 +107,7 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="py-5 text-center">
                         <i class="bi bi-upload fs-1 d-block mb-2 text-muted opacity-25"></i>
-                        <p class="text-muted small mb-2">Belum ada riwayat import.</p>
+                        <p class="text-muted small mb-2"><?php echo e(__('import.no_imports')); ?></p>
                         <a href="<?php echo e(route('import-bank.web.form')); ?>" class="small text-primary fw-medium text-decoration-none">
                             Import sekarang
                         </a>

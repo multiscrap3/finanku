@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Transaksi')
-@section('page-title', 'Detail Transaksi')
+@section('title', __('transaksi.detail'))
+@section('page-title', __('transaksi.detail'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -47,13 +47,13 @@
             <div class="row g-3 small">
                 @if($transaksi->kategori)
                     <div class="col-6">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Kategori</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('transaksi.category') }}</div>
                         <div class="fw-medium">{{ $transaksi->kategori->nama }}</div>
                     </div>
                 @endif
                 @if($transaksi->sumberTransaksi)
                     <div class="col-6">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Sumber Dana</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('transaksi.source') }}</div>
                         <div class="fw-medium">{{ $transaksi->sumberTransaksi->nama }}</div>
                     </div>
                 @endif
@@ -67,13 +67,13 @@
                 </div>
                 @if($transaksi->catatan)
                     <div class="col-12">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Catatan</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('transaksi.notes') }}</div>
                         <div class="fw-medium">{{ $transaksi->catatan }}</div>
                     </div>
                 @endif
                 @if($transaksi->tags && count($transaksi->tags))
                     <div class="col-12">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Tags</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('transaksi.tags') }}</div>
                         <div class="d-flex flex-wrap gap-1">
                             @foreach($transaksi->tags as $tag)
                                 <span class="badge bg-light text-dark border" style="font-size:.7rem;">
@@ -88,15 +88,15 @@
             {{-- Detail items dari OCR --}}
             @if(!empty($transaksi->ocr_items) && count($transaksi->ocr_items) > 0)
                 <div class="mt-4 pt-4 border-top">
-                    <p class="text-muted fw-medium mb-2" style="font-size:.78rem;">Detail Item (dari Struk)</p>
+                    <p class="text-muted fw-medium mb-2" style="font-size:.78rem;">{{ __('transaksi.item_detail') }}</p>
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered" style="font-size:.78rem;">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Item</th>
-                                    <th class="text-center" style="width:50px;">Qty</th>
-                                    <th class="text-end">Harga Satuan</th>
-                                    <th class="text-end">Subtotal</th>
+                                    <th>{{ __('transaksi.item_name') }}</th>
+                                    <th class="text-center" style="width:50px;">{{ __('transaksi.qty') }}</th>
+                                    <th class="text-end">{{ __('transaksi.price') }}</th>
+                                    <th class="text-end">{{ __('transaksi.subtotal') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -144,7 +144,7 @@
         </a>
 
         <form method="POST" action="{{ route('transaksi.destroy', $transaksi) }}"
-              onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')">
+              onsubmit="return confirm('{{ __('transaksi.delete_confirm') }}')">
             @csrf @method('DELETE')
             <button type="submit" class="btn btn-outline-danger btn-sm">
                 <i class="bi bi-trash me-1"></i>Hapus

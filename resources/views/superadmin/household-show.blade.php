@@ -27,13 +27,13 @@
     <div class="col-12 col-md-6">
         <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;">
             <div class="card-body p-4">
-                <h6 class="fw-semibold mb-3">Info Household</h6>
+                <h6 class="fw-semibold mb-3">{{ __('superadmin.households') }}</h6>
                 <dl class="row g-2 small mb-0">
                     <dt class="col-5 text-muted">ID</dt>
                     <dd class="col-7">{{ $household->id }}</dd>
-                    <dt class="col-5 text-muted">Nama</dt>
+                    <dt class="col-5 text-muted">{{ __('superadmin.name') }}</dt>
                     <dd class="col-7 fw-medium">{{ $household->nama }}</dd>
-                    <dt class="col-5 text-muted">Status</dt>
+                    <dt class="col-5 text-muted">{{ __('superadmin.status') }}</dt>
                     <dd class="col-7">
                         <span class="badge rounded-pill {{ $household->status === 'active' ? 'bg-success' : 'bg-danger' }}">
                             {{ $household->status }}
@@ -41,7 +41,7 @@
                     </dd>
                     <dt class="col-5 text-muted">Plan</dt>
                     <dd class="col-7">{{ $household->plan?->nama ?? 'Free' }}</dd>
-                    <dt class="col-5 text-muted">Dibuat</dt>
+                    <dt class="col-5 text-muted">{{ __('superadmin.created') }}</dt>
                     <dd class="col-7">{{ $household->created_at->translatedFormat('d M Y') }}</dd>
                 </dl>
             </div>
@@ -73,7 +73,7 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
             <div class="card-header bg-white border-bottom py-3 px-4" style="border-radius:.75rem .75rem 0 0;">
-                <h6 class="fw-semibold mb-0">Aktivitas Terbaru</h6>
+                <h6 class="fw-semibold mb-0">{{ __('superadmin.logs') }}</h6>
             </div>
             <div class="card-body p-0">
                 @forelse($recentActivity as $log)

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Household')
-@section('page-title', 'Household')
+@section('title', __('household.title'))
+@section('page-title', __('household.title'))
 
 @section('content')
 <div class="row g-4 justify-content-center">
@@ -19,21 +19,21 @@
                         Plan: <span class="fw-medium text-dark">{{ $household?->plan?->nama ?? 'Free' }}</span>
                     </p>
                 </div>
-                <a href="{{ route('household.members') }}" class="small text-primary text-decoration-none">Kelola Anggota</a>
+                <a href="{{ route('household.members') }}" class="small text-primary text-decoration-none">{{ __('household.members') }}</a>
             </div>
 
             <div class="row g-3">
                 <div class="col-6">
                     <div class="p-3 rounded-3" style="background:#f8f9fa;">
-                        <div class="text-muted small mb-1">Status Subscription</div>
+                        <div class="text-muted small mb-1">{{ __('household.household_name') }}</div>
                         <div class="fw-semibold {{ $household?->isSubscriptionActive() ? 'text-success' : 'text-danger' }}">
-                            {{ $household?->isSubscriptionActive() ? 'Aktif' : 'Tidak Aktif' }}
+                            {{ $household?->isSubscriptionActive() ? __('recurring.active') : __('recurring.inactive') }}
                         </div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="p-3 rounded-3" style="background:#f8f9fa;">
-                        <div class="text-muted small mb-1">Jumlah Anggota</div>
+                        <div class="text-muted small mb-1">{{ __('household.members') }}</div>
                         <div class="fw-semibold text-dark">{{ $household?->users->count() ?? 0 }} orang</div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
     {{-- Anggota --}}
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-header bg-white border-bottom py-3 px-4" style="border-radius:.75rem .75rem 0 0;">
-            <h6 class="fw-semibold mb-0">Anggota Household</h6>
+            <h6 class="fw-semibold mb-0">{{ __('household.members') }}</h6>
         </div>
         <div class="card-body p-0">
             @foreach($household?->users ?? [] as $member)
@@ -74,17 +74,17 @@
     @if(in_array(auth()->user()->role, ['owner', 'admin']))
         <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
             <div class="card-body p-4">
-                <h6 class="fw-semibold mb-3">Undang Anggota</h6>
+                <h6 class="fw-semibold mb-3">{{ __('household.invite') }}</h6>
                 <form method="POST" action="{{ route('household.invite') }}" class="d-flex gap-2">
                     @csrf
-                    <input type="email" name="email" required placeholder="Email anggota baru"
+                    <input type="email" name="email" required placeholder="{{ __('household.invite_email') }}"
                            class="form-control form-control-sm flex-grow-1">
                     <select name="role" class="form-select form-select-sm" style="width:auto;">
-                        <option value="member">Member</option>
-                        <option value="admin">Admin</option>
-                        <option value="viewer">Viewer</option>
+                        <option value="member">{{ __('household.role_member') }}</option>
+                        <option value="admin">{{ __('household.role_admin') }}</option>
+                        <option value="viewer">{{ __('household.role_viewer') }}</option>
                     </select>
-                    <button type="submit" class="btn btn-primary btn-sm">Undang</button>
+                    <button type="submit" class="btn btn-primary btn-sm">{{ __('household.invite') }}</button>
                 </form>
             </div>
         </div>
@@ -93,12 +93,12 @@
     {{-- Bergabung via kode --}}
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-body p-4">
-            <h6 class="fw-semibold mb-3">Bergabung dengan Kode Undangan</h6>
+            <h6 class="fw-semibold mb-3">{{ __('household.invite') }}</h6>
             <form method="POST" action="{{ route('household.join') }}" class="d-flex gap-2">
                 @csrf
-                <input type="text" name="token" required placeholder="Masukkan token undangan"
+                <input type="text" name="token" required placeholder="{{ __('household.invite_email') }}"
                        class="form-control form-control-sm flex-grow-1">
-                <button type="submit" class="btn btn-success btn-sm">Bergabung</button>
+                <button type="submit" class="btn btn-success btn-sm">{{ __('household.send_invite') }}</button>
             </form>
         </div>
     </div>

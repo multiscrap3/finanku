@@ -36,7 +36,7 @@ Ganti Password Sekarang
 
 Jika Anda memiliki pertanyaan atau kekhawatiran, segera hubungi kami di:
 
-**Email:** finanku.app@gmail.com
+**{{ __('superadmin.email') }}:** finanku.app@gmail.com
 
 Kami memohon maaf atas ketidaknyamanan ini dan berkomitmen untuk terus meningkatkan keamanan sistem kami.
 

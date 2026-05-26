@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Import Mutasi Bank')
-@section('page-title', 'Import Mutasi Bank')
+@section('title', __('import.title'))
+@section('page-title', __('import.title'))
 
 @section('content')
 <div class="row g-4">
@@ -105,7 +105,7 @@
                 @empty
                     <div class="py-5 text-center">
                         <i class="bi bi-upload fs-1 d-block mb-2 text-muted opacity-25"></i>
-                        <p class="text-muted small mb-2">Belum ada riwayat import.</p>
+                        <p class="text-muted small mb-2">{{ __('import.no_imports') }}</p>
                         <a href="{{ route('import-bank.web.form') }}" class="small text-primary fw-medium text-decoration-none">
                             Import sekarang
                         </a>

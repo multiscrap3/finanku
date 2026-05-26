@@ -1,7 +1,7 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Health Check')
-@section('page-title', 'Health Check')
+@section('title', __('superadmin.health'))
+@section('page-title', __('superadmin.health'))
 
 @section('content')
 <div class="row g-4">
@@ -11,10 +11,10 @@
         <div class="d-flex align-items-center gap-3">
             @if($allOk)
                 <span class="rounded-circle d-inline-block bg-success" style="width:14px;height:14px;"></span>
-                <span class="fw-semibold text-success">Semua sistem berjalan normal.</span>
+                <span class="fw-semibold text-success">{{ __('superadmin.health_ok') }}</span>
             @else
                 <span class="rounded-circle d-inline-block bg-danger" style="width:14px;height:14px;"></span>
-                <span class="fw-semibold text-danger">Ada masalah pada beberapa sistem.</span>
+                <span class="fw-semibold text-danger">{{ __('superadmin.health_issue') }}</span>
             @endif
             <span class="text-muted small">{{ now()->translatedFormat('d M Y H:i:s') }}</span>
         </div>

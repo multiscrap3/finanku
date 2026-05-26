@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Import Mutasi Bank')
-@section('page-title', 'Import Mutasi Bank')
+@section('title', __('import.title'))
+@section('page-title', __('import.title'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -56,8 +56,8 @@
         <div class="card-body p-4 p-md-5">
             <div class="d-flex align-items-start justify-content-between mb-4">
                 <div>
-                    <h5 class="fw-bold mb-1">Pilih File &amp; Bank</h5>
-                    <p class="text-muted small mb-0">Upload file CSV, TXT, atau XLSX mutasi rekening dari bank kamu.</p>
+                    <h5 class="fw-bold mb-1">{{ __('import.choose_bank') }}</h5>
+                    <p class="text-muted small mb-0">{{ __('import.subtitle') }}</p>
                 </div>
                 <a href="{{ route('import-bank.web.template') }}" class="btn btn-outline-secondary btn-sm flex-shrink-0 ms-3" download>
                     <i class="bi bi-download me-1"></i>Download Template
@@ -110,7 +110,7 @@
             </div>
 
             <div class="mb-4">
-                <label class="form-label fw-medium">File Mutasi Bank</label>
+                <label class="form-label fw-medium">{{ __('import.upload_file') }}</label>
                 <label id="dropZone" class="d-flex flex-column align-items-center justify-content-center w-100 border border-dashed rounded p-4 text-center"
                        style="border-color:#d1d5db;cursor:pointer;min-height:120px;transition:border-color .2s;">
                     <div id="dropZoneEmpty">
@@ -127,7 +127,7 @@
             </div>
 
             <button type="button" id="previewBtn" class="btn btn-primary w-100 fw-medium" disabled>
-                <span id="previewBtnText">Preview Data</span>
+                <span id="previewBtnText">{{ __('import.preview') }}</span>
                 <span id="previewBtnLoading" class="d-none">
                     <span class="spinner-border spinner-border-sm me-1"></span>Memproses...
                 </span>
@@ -140,7 +140,7 @@
         <div class="card-body p-4 p-md-5">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <div>
-                    <h5 class="fw-bold mb-1">Preview Data</h5>
+                    <h5 class="fw-bold mb-1">{{ __('import.preview') }}</h5>
                     <p class="text-muted small mb-0"><span id="previewTotal">0</span> baris ditemukan</p>
                 </div>
                 <button type="button" id="backToStep1" class="btn btn-link btn-sm text-muted p-0">Ganti File</button>
@@ -162,7 +162,7 @@
             <p id="moreRows" class="text-muted text-center mb-3 d-none" style="font-size:.75rem;"></p>
 
             <button type="button" id="importBtn" class="btn btn-success w-100 fw-medium">
-                <span id="importBtnText">Import Semua Data</span>
+                <span id="importBtnText">{{ __('import.import') }}</span>
                 <span id="importBtnLoading" class="d-none">
                     <span class="spinner-border spinner-border-sm me-1"></span>Mengimport...
                 </span>
@@ -177,7 +177,7 @@
                  style="width:64px;height:64px;background:#d1fae5;">
                 <i class="bi bi-check-circle-fill text-success" style="font-size:2rem;"></i>
             </div>
-            <h4 class="fw-bold mb-2">Import Berhasil!</h4>
+            <h4 class="fw-bold mb-2">{{ __('import.imported') }}!</h4>
             <p class="text-muted small mb-2" id="importResultMsg"></p>
             <p class="small mb-4" style="color:#6b7280;">
                 <i class="bi bi-shield-check text-success me-1"></i>

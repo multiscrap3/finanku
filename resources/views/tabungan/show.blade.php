@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Tabungan')
-@section('page-title', 'Detail Tabungan')
+@section('title', __('tabungan.detail'))
+@section('page-title', __('tabungan.detail'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -18,11 +18,11 @@
                     @endif
                 </div>
                 <div class="d-flex gap-3">
-                    <a href="{{ route('tabungan.edit', $tabungan) }}" class="small text-primary text-decoration-none">Edit</a>
+                    <a href="{{ route('tabungan.edit', $tabungan) }}" class="small text-primary text-decoration-none">{{ __('messages.edit') }}</a>
                     <form method="POST" action="{{ route('tabungan.destroy', $tabungan) }}"
-                          onsubmit="return confirm('Hapus tujuan tabungan ini?')" class="d-inline">
+                          onsubmit="return confirm('{{ __('tabungan.delete_confirm') }}')" class="d-inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">Hapus</button>
+                        <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">{{ __('messages.delete') }}</button>
                     </form>
                 </div>
             </div>
@@ -33,15 +33,15 @@
 
             <div class="row g-3 text-center mb-4">
                 <div class="col-4">
-                    <div class="text-muted mb-1" style="font-size:.72rem;">Terkumpul</div>
+                    <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('tabungan.saved') }}</div>
                     <div class="fw-bold text-primary fs-5">Rp {{ number_format($tabungan->terkumpul, 0, ',', '.') }}</div>
                 </div>
                 <div class="col-4">
-                    <div class="text-muted mb-1" style="font-size:.72rem;">Target</div>
+                    <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('tabungan.target') }}</div>
                     <div class="fw-bold fs-5">Rp {{ number_format($tabungan->target_jumlah, 0, ',', '.') }}</div>
                 </div>
                 <div class="col-4">
-                    <div class="text-muted mb-1" style="font-size:.72rem;">Sisa</div>
+                    <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('tabungan.remaining') }}</div>
                     <div class="fw-bold fs-5">Rp {{ number_format($tabungan->sisa_target, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -65,30 +65,30 @@
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;">
                     <div class="card-body p-4">
-                        <h6 class="fw-semibold mb-3">Setor Dana</h6>
+                        <h6 class="fw-semibold mb-3">{{ __('tabungan.top_up') }}</h6>
                         <form method="POST" action="{{ route('tabungan.setor', $tabungan) }}">
                             @csrf
                             <div class="mb-2">
-                                <label class="form-label small fw-medium">Sumber Dana</label>
+                                <label class="form-label small fw-medium">{{ __('tabungan.source') }}</label>
                                 <select name="sumber_transaksi_id" required class="form-select form-select-sm">
-                                    <option value="">Pilih sumber dana</option>
+                                    <option value="">{{ __('tabungan.source') }}</option>
                                     @foreach($sumberTransaksi as $s)
                                         <option value="{{ $s->id }}">{{ $s->nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label small fw-medium">Jumlah</label>
+                                <label class="form-label small fw-medium">{{ __('tabungan.amount') }}</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text">Rp</span>
                                     <input type="number" name="jumlah" min="1" required placeholder="0" class="form-control">
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small fw-medium">Tanggal</label>
+                                <label class="form-label small fw-medium">{{ __('messages.date') }}</label>
                                 <input type="date" name="tanggal" value="{{ now()->format('Y-m-d') }}" class="form-control form-control-sm">
                             </div>
-                            <button type="submit" class="btn btn-success btn-sm w-100">Setor</button>
+                            <button type="submit" class="btn btn-success btn-sm w-100">{{ __('tabungan.top_up') }}</button>
                         </form>
                     </div>
                 </div>
@@ -97,35 +97,35 @@
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;">
                     <div class="card-body p-4">
-                        <h6 class="fw-semibold mb-3">Tarik Dana</h6>
+                        <h6 class="fw-semibold mb-3">{{ __('tabungan.withdraw') }}</h6>
                         <form method="POST" action="{{ route('tabungan.tarik', $tabungan) }}">
                             @csrf
                             <div class="mb-2">
-                                <label class="form-label small fw-medium">Tujuan Dana</label>
+                                <label class="form-label small fw-medium">{{ __('tabungan.source') }}</label>
                                 <select name="sumber_transaksi_id" required class="form-select form-select-sm">
-                                    <option value="">Pilih rekening tujuan</option>
+                                    <option value="">{{ __('tabungan.source') }}</option>
                                     @foreach($sumberTransaksi as $s)
                                         <option value="{{ $s->id }}">{{ $s->nama }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label small fw-medium">Jumlah</label>
+                                <label class="form-label small fw-medium">{{ __('tabungan.amount') }}</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text">Rp</span>
                                     <input type="number" name="jumlah" min="1" max="{{ $tabungan->terkumpul }}" required placeholder="0" class="form-control">
                                 </div>
                             </div>
                             <div class="mb-2">
-                                <label class="form-label small fw-medium">Tanggal</label>
+                                <label class="form-label small fw-medium">{{ __('messages.date') }}</label>
                                 <input type="date" name="tanggal" value="{{ now()->format('Y-m-d') }}" class="form-control form-control-sm">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label small fw-medium">Keterangan</label>
-                                <input type="text" name="keterangan" placeholder="Alasan penarikan..." class="form-control form-control-sm">
+                                <label class="form-label small fw-medium">{{ __('tabungan.notes') }}</label>
+                                <input type="text" name="keterangan" placeholder="{{ __('tabungan.notes') }}" class="form-control form-control-sm">
                             </div>
                             <button type="submit" class="btn btn-warning btn-sm w-100"
-                                    onclick="return confirm('Tarik dana dari tabungan ini?')">Tarik</button>
+                                    onclick="return confirm('{{ __('messages.confirm_delete') }}')">{{ __('tabungan.withdraw') }}</button>
                         </form>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
     {{-- Riwayat --}}
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-header bg-white border-bottom py-3 px-4" style="border-radius:.75rem .75rem 0 0;">
-            <h6 class="fw-semibold mb-0">Riwayat Transaksi</h6>
+            <h6 class="fw-semibold mb-0">{{ __('laporan.transactions') }}</h6>
         </div>
         <div class="card-body p-0">
             @forelse($riwayat ?? [] as $r)
@@ -161,7 +161,7 @@
                     </div>
                 </div>
             @empty
-                <div class="py-4 text-center text-muted small">Belum ada transaksi.</div>
+                <div class="py-4 text-center text-muted small">{{ __('messages.no_data') }}</div>
             @endforelse
         </div>
     </div>

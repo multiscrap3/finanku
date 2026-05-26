@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Kategori')
-@section('page-title', 'Kategori Transaksi')
+@section('title', __('kategori.title'))
+@section('page-title', __('kategori.title'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -48,11 +48,11 @@
                         @endforeach
                     </select>
                     <button type="submit" class="btn btn-warning btn-sm fw-medium"
-                            onclick="return confirm('Pindahkan semua data ke kategori pengganti, lalu hapus kategori ini?')">
-                        Ganti Kategori &amp; Hapus
+                            onclick="return confirm('{{ __('kategori.delete_confirm') }}')">
+                        {{ __('messages.delete') }}
                     </button>
                     <a href="{{ route('kategori.index') }}" class="btn btn-outline-secondary btn-sm">
-                        Batalkan
+                        {{ __('kategori.cancel') }}
                     </a>
                 </div>
             </form>
@@ -66,16 +66,16 @@
     @php $parents = $kategori->where('parent_id', null); @endphp
 
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h6 class="fw-semibold mb-0">Daftar Kategori ({{ $parents->count() }})</h6>
+        <h6 class="fw-semibold mb-0">{{ __('kategori.all') }} ({{ $parents->count() }})</h6>
         <button class="btn btn-primary btn-sm" type="button" id="btnToggleTambah"
                 onclick="var f=document.getElementById('formTambah');f.style.display=f.style.display==='none'?'block':'none';">
-            + Tambah
+            + {{ __('kategori.add') }}
         </button>
     </div>
 
     @if($parents->isEmpty())
         <div class="card border-0 shadow-sm text-center py-5 mb-4">
-            <p class="text-muted small mb-0">Belum ada kategori. Klik "+ Tambah" untuk menambahkan.</p>
+            <p class="text-muted small mb-0">{{ __('kategori.no_categories') }}</p>
         </div>
     @else
         @foreach($parents as $kat)
@@ -92,11 +92,11 @@
                         <span class="text-muted small ms-1">({{ $children->count() }} sub)</span>
                     @endif
                 </div>
-                <a href="{{ route('kategori.edit',$kat) }}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                <a href="{{ route('kategori.edit',$kat) }}" class="btn btn-outline-secondary btn-sm">{{ __('messages.edit') }}</a>
                 <form method="POST" action="{{ route('kategori.destroy',$kat) }}"
-                      onsubmit="return confirm('Hapus kategori ini?')" class="m-0">
+                      onsubmit="return confirm('{{ __('kategori.delete_confirm') }}')" class="m-0">
                     @csrf @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    <button type="submit" class="btn btn-danger btn-sm">{{ __('messages.delete') }}</button>
                 </form>
             </div>
 
@@ -106,11 +106,11 @@
                  style="border-top:1px solid rgba(128,128,128,.2); padding-left:2rem!important;">
                 <span class="text-muted me-1" style="font-size:.7rem;">&#9492;</span>
                 <div class="flex-grow-1 small">{{ $child->nama }}</div>
-                <a href="{{ route('kategori.edit',$child) }}" class="btn btn-outline-secondary btn-sm" style="font-size:.75rem;padding:.15rem .5rem;">Edit</a>
+                <a href="{{ route('kategori.edit',$child) }}" class="btn btn-outline-secondary btn-sm" style="font-size:.75rem;padding:.15rem .5rem;">{{ __('messages.edit') }}</a>
                 <form method="POST" action="{{ route('kategori.destroy',$child) }}"
-                      onsubmit="return confirm('Hapus kategori ini?')" class="m-0">
+                      onsubmit="return confirm('{{ __('kategori.delete_confirm') }}')" class="m-0">
                     @csrf @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm" style="font-size:.75rem;padding:.15rem .5rem;">Hapus</button>
+                    <button type="submit" class="btn btn-danger btn-sm" style="font-size:.75rem;padding:.15rem .5rem;">{{ __('messages.delete') }}</button>
                 </form>
             </div>
             @endforeach
@@ -125,34 +125,34 @@
     <div id="formTambah" style="display:{{ $errors->any()||old('nama') ? 'block' : 'none' }};" class="mt-3">
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
-                <h6 class="fw-semibold mb-3">Tambah Kategori Baru</h6>
+                <h6 class="fw-semibold mb-3">{{ __('kategori.add') }}</h6>
                 <form method="POST" action="{{ route('kategori.store') }}" id="formTambahInner">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label small fw-medium mb-1">1. Jenis Transaksi <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-medium mb-1">1. {{ __('kategori.type') }} <span class="text-danger">*</span></label>
                         <div class="d-flex gap-2">
                             <label class="jenis-btn flex-fill text-center py-2 rounded border small fw-medium" style="cursor:pointer;" id="btnP">
                                 <input type="radio" name="jenis" value="pemasukan" class="d-none" {{ old('jenis')==='pemasukan'?'checked':'' }}>
-                                &#8593; Pemasukan
+                                &#8593; {{ __('kategori.income') }}
                             </label>
                             <label class="jenis-btn flex-fill text-center py-2 rounded border small fw-medium" style="cursor:pointer;" id="btnK">
                                 <input type="radio" name="jenis" value="pengeluaran" class="d-none" {{ old('jenis')==='pengeluaran'?'checked':'' }}>
-                                &#8595; Pengeluaran
+                                &#8595; {{ __('kategori.expense') }}
                             </label>
                         </div>
                         @error('jenis')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-medium">2. Nama Kategori <span class="text-danger">*</span></label>
+                        <label class="form-label small fw-medium">2. {{ __('kategori.name') }} <span class="text-danger">*</span></label>
                         <input type="text" name="nama" value="{{ old('nama') }}" required maxlength="255"
-                               placeholder="contoh: Makanan, Gaji..."
+                               placeholder="{{ __('kategori.name_ph') }}"
                                class="form-control form-control-sm @error('nama') is-invalid @enderror">
                         @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-medium">3. Kategori Induk <span class="text-muted small">(opsional)</span></label>
+                        <label class="form-label small fw-medium">3. {{ __('kategori.parent') }} <span class="text-muted small">(opsional)</span></label>
                         <select name="parent_id" id="selectParent" class="form-select form-select-sm">
-                            <option value="">— Kategori Utama —</option>
+                            <option value="">{{ __('kategori.parent_ph') }}</option>
                             @foreach($parents as $opt)
                                 <option value="{{ $opt->id }}" data-jenis="{{ $opt->jenis }}" class="opt-parent">
                                     {{ $opt->nama }}
@@ -160,7 +160,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-sm w-100">Tambah Kategori</button>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">{{ __('kategori.add') }}</button>
                 </form>
             </div>
         </div>
@@ -187,7 +187,7 @@
         lbl.style.borderColor = checked.value==='pemasukan' ? '#10b981' : '#ef4444';
         var sel = document.getElementById('selectParent');
         var old = sel.value;
-        sel.innerHTML = '<option value="">— Kategori Utama —</option>';
+        sel.innerHTML = '<option value="">{{ __('kategori.parent_ph') }}</option>';
         opts.forEach(function(k){
             if (k.jenis!==checked.value) return;
             var o = document.createElement('option');

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Mingguan')
-@section('page-title', 'Laporan Mingguan')
+@section('title', __('laporan.weekly'))
+@section('page-title', __('laporan.weekly'))
 
 @section('content')
 <div class="row g-4">
@@ -13,11 +13,11 @@
                 <form method="GET">
                     <div class="row g-2 align-items-end">
                         <div class="col-12 col-sm-auto">
-                            <label class="form-label small fw-medium text-muted mb-1">Mulai Minggu</label>
+                            <label class="form-label small fw-medium text-muted mb-1">{{ __('laporan.week') }}</label>
                             <input type="date" name="tanggal_mulai" value="{{ $tanggalMulai }}" class="form-control form-control-sm">
                         </div>
                         <div class="col-12 col-sm-auto">
-                            <button type="submit" class="btn btn-primary btn-sm w-100">Tampilkan</button>
+                            <button type="submit" class="btn btn-primary btn-sm w-100">{{ __('messages.apply') }}</button>
                         </div>
                     </div>
                 </form>
@@ -30,7 +30,7 @@
         <div class="col-4 col-sm-4">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #10b981;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Pemasukan</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.income') }}</div>
                     <div class="fw-bold fs-6 text-success">Rp {{ number_format($data['total_pemasukan'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
         <div class="col-4 col-sm-4">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #ef4444;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Pengeluaran</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.expense') }}</div>
                     <div class="fw-bold fs-6 text-danger">Rp {{ number_format($data['total_pengeluaran'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
         <div class="col-4 col-sm-4">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #3b82f6;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Cashflow</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.balance') }}</div>
                     <div class="fw-bold fs-6 text-primary">Rp {{ number_format($data['cashflow'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
             <div class="col-12">
                 <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                     <div class="card-body p-4">
-                        <h6 class="fw-semibold mb-4">Pengeluaran per Hari</h6>
+                        <h6 class="fw-semibold mb-4">{{ __('laporan.expense') }} {{ __('laporan.daily') }}</h6>
                         <canvas id="chartHarian" height="120"></canvas>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                 <div class="card-header bg-white border-bottom py-3 px-4" style="border-radius:.75rem .75rem 0 0;">
-                    <h6 class="fw-semibold mb-0">Semua Transaksi Minggu Ini</h6>
+                    <h6 class="fw-semibold mb-0">{{ __('laporan.transactions') }}</h6>
                 </div>
                 <div class="card-body p-0">
                     @forelse($data['transaksi'] ?? [] as $t)
@@ -85,7 +85,7 @@
                             </div>
                         </a>
                     @empty
-                        <div class="py-5 text-center text-muted small">Tidak ada transaksi minggu ini.</div>
+                        <div class="py-5 text-center text-muted small">{{ __('laporan.no_data') }}</div>
                     @endforelse
                 </div>
             </div>
@@ -103,7 +103,7 @@
         data: {
             labels: {!! json_encode(array_keys($data['per_hari'])) !!},
             datasets: [{
-                label: 'Pengeluaran',
+                label: '{{ __('laporan.expense') }}',
                 data: {!! json_encode(array_values($data['per_hari'])) !!},
                 backgroundColor: '#EF4444',
                 borderRadius: 4,

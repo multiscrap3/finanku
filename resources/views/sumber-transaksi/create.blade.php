@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Tambah Rekening')
-@section('page-title', 'Tambah Rekening')
+@section('title', __('sumber.add'))
+@section('page-title', __('sumber.add'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -20,29 +20,29 @@
                 @endif
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Nama Rekening <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('sumber.name') }} <span class="text-danger">*</span></label>
                     <input type="text" name="nama" value="{{ old('nama') }}" required maxlength="255"
-                           placeholder="contoh: BCA Tabungan"
+                           placeholder="{{ __('sumber.name_ph') }}"
                            class="form-control @error('nama') is-invalid @enderror">
                     @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Jenis <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('sumber.type') }} <span class="text-danger">*</span></label>
                     <select name="jenis" required class="form-select @error('jenis') is-invalid @enderror">
-                        <option value="">Pilih jenis</option>
-                        <option value="cash"         {{ old('jenis') === 'cash'         ? 'selected' : '' }}>Cash / Tunai</option>
-                        <option value="bank"         {{ old('jenis') === 'bank'         ? 'selected' : '' }}>Bank</option>
-                        <option value="e-wallet"     {{ old('jenis') === 'e-wallet'     ? 'selected' : '' }}>E-Wallet</option>
-                        <option value="kartu_kredit" {{ old('jenis') === 'kartu_kredit' ? 'selected' : '' }}>Kartu Kredit</option>
-                        <option value="investasi"    {{ old('jenis') === 'investasi'    ? 'selected' : '' }}>Investasi</option>
-                        <option value="lainnya"      {{ old('jenis') === 'lainnya'      ? 'selected' : '' }}>Lainnya</option>
+                        <option value="">{{ __('sumber.type') }}</option>
+                        <option value="cash"         {{ old('jenis') === 'cash'         ? 'selected' : '' }}>{{ __('sumber.cash') }}</option>
+                        <option value="bank"         {{ old('jenis') === 'bank'         ? 'selected' : '' }}>{{ __('sumber.bank') }}</option>
+                        <option value="e-wallet"     {{ old('jenis') === 'e-wallet'     ? 'selected' : '' }}>{{ __('sumber.ewallet') }}</option>
+                        <option value="kartu_kredit" {{ old('jenis') === 'kartu_kredit' ? 'selected' : '' }}>{{ __('sumber.other') }}</option>
+                        <option value="investasi"    {{ old('jenis') === 'investasi'    ? 'selected' : '' }}>{{ __('sumber.investment') }}</option>
+                        <option value="lainnya"      {{ old('jenis') === 'lainnya'      ? 'selected' : '' }}>{{ __('sumber.other') }}</option>
                     </select>
                     @error('jenis')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-medium">Saldo Awal</label>
+                    <label class="form-label fw-medium">{{ __('sumber.initial_balance') }}</label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="number" name="saldo" value="{{ old('saldo', 0) }}" min="0" step="1000"
@@ -52,8 +52,8 @@
                 </div>
 
                 <div class="d-flex gap-2 pt-2">
-                    <button type="submit" class="btn btn-primary flex-fill fw-medium">Tambah Rekening</button>
-                    <a href="{{ route('sumber-transaksi.index') }}" class="btn btn-outline-secondary flex-fill">Batal</a>
+                    <button type="submit" class="btn btn-primary flex-fill fw-medium">{{ __('sumber.save') }}</button>
+                    <a href="{{ route('sumber-transaksi.index') }}" class="btn btn-outline-secondary flex-fill">{{ __('sumber.cancel') }}</a>
                 </div>
             </form>
         </div>

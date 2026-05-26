@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Syarat & Ketentuan')
+@section('title', __('privacy.terms_title'))
 
 @section('content')
 <div class="py-2">
@@ -8,12 +8,12 @@
         <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-secondary">
             <i class="bi bi-arrow-left"></i>
         </a>
-        <h5 class="mb-0 fw-bold">Syarat &amp; Ketentuan</h5>
+        <h5 class="mb-0 fw-bold">{{ __('privacy.terms_title') }}</h5>
     </div>
 
     <div class="alert alert-info py-2 small mb-4">
         <i class="bi bi-info-circle me-1"></i>
-        Berlaku sejak <strong>17 Oktober 2024</strong>
+        {{ __('privacy.effective_date') }}: <strong>17 Oktober 2024</strong>
     </div>
 
     <h6 class="fw-bold mb-2">1. Penerimaan Syarat</h6>
@@ -105,7 +105,7 @@
 
     <hr class="my-4">
     <p class="text-center small text-muted mb-0">
-        <a href="{{ route('privacy.policy') }}" class="text-decoration-none me-3">Kebijakan Privasi</a>
+        <a href="{{ route('privacy.policy') }}" class="text-decoration-none me-3">{{ __('messages.privacy_policy') }}</a>
         &copy; {{ date('Y') }} Finanku
     </p>
 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Profil Saya')
-@section('page-title', 'Profil Saya')
+@section('title', __('profile.title'))
+@section('page-title', __('profile.title'))
 
 @section('content')
 <div class="row g-4 justify-content-center">
@@ -48,9 +48,9 @@
                 </div>
             </div>
             <div class="flex-shrink-0 text-end d-none d-md-block">
-                <span class="badge rounded-pill bg-primary">{{ ucfirst($user->role ?? 'member') }}</span>
+                <span class="badge rounded-pill bg-primary" title="{{ __('profile.role') }}">{{ ucfirst($user->role ?? 'member') }}</span>
                 @if($user->household)
-                    <div class="small text-muted mt-1">{{ $user->household->nama }}</div>
+                    <div class="small text-muted mt-1" title="{{ __('profile.household') }}">{{ $user->household->nama }}</div>
                 @endif
             </div>
         </div>
@@ -59,17 +59,17 @@
     {{-- Update profil --}}
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-body p-4">
-            <h6 class="fw-semibold mb-4">Ubah Informasi Profil</h6>
+            <h6 class="fw-semibold mb-4">{{ __('profile.edit') }}</h6>
             <form method="POST" action="{{ route('profile.update') }}">
                 @csrf @method('PUT')
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Nama <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('profile.name') }} <span class="text-danger">*</span></label>
                     <input type="text" name="name" value="{{ old('name', $user->name) }}" required
                            class="form-control @error('name') is-invalid @enderror">
                     @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Email <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('profile.email') }} <span class="text-danger">*</span></label>
                     <input type="email" name="email" value="{{ old('email', $user->email) }}" required
                            class="form-control @error('email') is-invalid @enderror">
                     @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -81,7 +81,7 @@
                            placeholder="contoh: 08123456789">
                     @error('phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                <button type="submit" class="btn btn-primary">{{ __('profile.save') }}</button>
             </form>
         </div>
     </div>

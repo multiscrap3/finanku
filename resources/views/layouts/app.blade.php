@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -187,7 +187,7 @@
                     {{-- Kiri: hamburger mobile + judul halaman --}}
                     <div class="header-left d-flex align-items-center gap-2">
                         {{-- Mobile hamburger (hanya tampil di ≤767px) --}}
-                        <button type="button" id="mobileNavToggle" class="mobile-hamburger" aria-label="Buka menu">
+                        <button type="button" id="mobileNavToggle" class="mobile-hamburger" aria-label="{{ __('messages.open_menu') }}">
                             <i class="bi bi-list fs-4"></i>
                         </button>
                         <div class="dashboard_bar">@yield('page-title', 'Dashboard')</div>
@@ -198,14 +198,14 @@
 
                         {{-- Notifikasi --}}
                         <li class="nav-item dropdown notification_dropdown">
-                            <a class="nav-link" href="{{ route('notifikasi.index') }}" title="Notifikasi">
+                            <a class="nav-link" href="{{ route('notifikasi.index') }}" title="{{ __('messages.notifications') }}">
                                 <i class="bi bi-bell fs-5"></i>
                             </a>
                         </li>
 
                         {{-- Dark / Light Toggle --}}
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" id="darkModeToggle" title="Ganti Tema">
+                            <a class="nav-link" href="javascript:void(0);" id="darkModeToggle" title="{{ __('messages.toggle_theme') }}">
                                 <i class="bi bi-moon-stars-fill fs-5" id="darkModeIcon"></i>
                             </a>
                         </li>
@@ -228,14 +228,14 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="{{ route('settings.index') }}" class="dropdown-item ai-icon">
                                     <i class="bi bi-person-circle text-primary me-2"></i>
-                                    Profil & Pengaturan
+                                    {{ __('messages.profile_settings') }}
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="dropdown-item ai-icon text-danger">
                                         <i class="bi bi-box-arrow-right me-2"></i>
-                                        Keluar
+                                        {{ __('messages.logout') }}
                                     </button>
                                 </form>
                             </div>
@@ -268,7 +268,7 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'mm-active' : '' }}">
                     <a href="{{ route('dashboard') }}" aria-expanded="false">
                         <i class="bi bi-house-door"></i>
-                        <span class="nav-text">Dashboard</span>
+                        <span class="nav-text">{{ __('navigation.dashboard') }}</span>
                     </a>
                 </li>
 
@@ -277,11 +277,11 @@
                     <a class="{{ request()->routeIs('transaksi.*') || request()->routeIs('import-bank.*') ? '' : 'has-arrow' }}"
                        href="javascript:void(0);" aria-expanded="{{ request()->routeIs('transaksi.*') || request()->routeIs('import-bank.*') ? 'true' : 'false' }}">
                         <i class="bi bi-arrow-left-right"></i>
-                        <span class="nav-text">Transaksi</span>
+                        <span class="nav-text">{{ __('navigation.transactions') }}</span>
                     </a>
                     <ul aria-expanded="{{ request()->routeIs('transaksi.*') || request()->routeIs('import-bank.*') ? 'true' : 'false' }}">
-                        <li><a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'mm-active' : '' }}">Semua Transaksi</a></li>
-                        <li><a href="{{ route('import-bank.web.index') }}" class="{{ request()->routeIs('import-bank.*') ? 'mm-active' : '' }}">Import Bank</a></li>
+                        <li><a href="{{ route('transaksi.index') }}" class="{{ request()->routeIs('transaksi.*') ? 'mm-active' : '' }}">{{ __('navigation.all_transactions') }}</a></li>
+                        <li><a href="{{ route('import-bank.web.index') }}" class="{{ request()->routeIs('import-bank.*') ? 'mm-active' : '' }}">{{ __('navigation.import_bank') }}</a></li>
                     </ul>
                 </li>
 
@@ -289,7 +289,7 @@
                 <li class="{{ request()->routeIs('laporan.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('laporan.index') }}" aria-expanded="false">
                         <i class="bi bi-bar-chart-line"></i>
-                        <span class="nav-text">Laporan</span>
+                        <span class="nav-text">{{ __('navigation.reports') }}</span>
                     </a>
                 </li>
 
@@ -297,7 +297,7 @@
                 <li class="{{ request()->routeIs('anggaran.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('anggaran.index') }}" aria-expanded="false">
                         <i class="bi bi-calculator"></i>
-                        <span class="nav-text">Anggaran</span>
+                        <span class="nav-text">{{ __('navigation.budget') }}</span>
                     </a>
                 </li>
 
@@ -305,7 +305,7 @@
                 <li class="{{ request()->routeIs('tabungan.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('tabungan.index') }}" aria-expanded="false">
                         <i class="bi bi-piggy-bank"></i>
-                        <span class="nav-text">Tabungan</span>
+                        <span class="nav-text">{{ __('navigation.savings') }}</span>
                     </a>
                 </li>
 
@@ -313,7 +313,7 @@
                 <li class="{{ request()->routeIs('hutang-piutang.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('hutang-piutang.index') }}" aria-expanded="false">
                         <i class="bi bi-arrow-left-right"></i>
-                        <span class="nav-text">Hutang &amp; Piutang</span>
+                        <span class="nav-text">{{ __('navigation.debt') }}</span>
                     </a>
                 </li>
 
@@ -321,20 +321,20 @@
                 <li class="{{ request()->routeIs('recurring.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('recurring.index') }}" aria-expanded="false">
                         <i class="bi bi-arrow-repeat"></i>
-                        <span class="nav-text">Transaksi Rutin</span>
+                        <span class="nav-text">{{ __('navigation.recurring') }}</span>
                     </a>
                 </li>
 
                 {{-- Divider --}}
                 <li class="menu-title">
-                    <span>Manajemen</span>
+                    <span>{{ __('navigation.management') }}</span>
                 </li>
 
                 {{-- Household --}}
                 <li class="{{ request()->routeIs('household.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('household.index') }}" aria-expanded="false">
                         <i class="bi bi-people"></i>
-                        <span class="nav-text">Household</span>
+                        <span class="nav-text">{{ __('navigation.household') }}</span>
                     </a>
                 </li>
 
@@ -342,7 +342,7 @@
                 <li class="{{ request()->routeIs('kategori.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('kategori.index') }}" aria-expanded="false">
                         <i class="bi bi-tags"></i>
-                        <span class="nav-text">Kategori</span>
+                        <span class="nav-text">{{ __('navigation.categories') }}</span>
                     </a>
                 </li>
 
@@ -350,7 +350,7 @@
                 <li class="{{ request()->routeIs('sumber-transaksi.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('sumber-transaksi.index') }}" aria-expanded="false">
                         <i class="bi bi-credit-card"></i>
-                        <span class="nav-text">Sumber Dana</span>
+                        <span class="nav-text">{{ __('navigation.fund_sources') }}</span>
                     </a>
                 </li>
 
@@ -358,7 +358,7 @@
                 <li class="{{ request()->routeIs('tags.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('tags.index') }}" aria-expanded="false">
                         <i class="bi bi-bookmark"></i>
-                        <span class="nav-text">Tags</span>
+                        <span class="nav-text">{{ __('navigation.tags') }}</span>
                     </a>
                 </li>
 
@@ -366,20 +366,20 @@
                 <li class="{{ request()->routeIs('notifikasi.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('notifikasi.index') }}" aria-expanded="false">
                         <i class="bi bi-bell"></i>
-                        <span class="nav-text">Notifikasi</span>
+                        <span class="nav-text">{{ __('navigation.notifications') }}</span>
                     </a>
                 </li>
 
                 {{-- Divider --}}
                 <li class="menu-title">
-                    <span>Akun</span>
+                    <span>{{ __('navigation.account') }}</span>
                 </li>
 
                 {{-- Pengaturan --}}
                 <li class="{{ request()->routeIs('settings.*') ? 'mm-active' : '' }}">
                     <a href="{{ route('settings.index') }}" aria-expanded="false">
                         <i class="bi bi-gear"></i>
-                        <span class="nav-text">Pengaturan</span>
+                        <span class="nav-text">{{ __('navigation.settings') }}</span>
                     </a>
                 </li>
 
@@ -427,11 +427,11 @@
     <div class="footer">
         <div class="copyright">
             <p class="mb-0">
-                &copy; {{ date('Y') }} <strong>Finanku</strong>. Kelola keuangan rumah tangga dengan mudah.
+                &copy; {{ date('Y') }} <strong>Finanku</strong>. {{ __('messages.footer_tagline') }}
                 <span class="ms-2 text-muted" style="font-size:.75rem;">v{{ config('app.version') }}</span>
                 <span class="ms-3" style="font-size:.75rem;">
-                    <a href="{{ route('privacy.policy') }}" target="_blank" class="text-muted text-decoration-none me-2">Kebijakan Privasi</a>
-                    <a href="{{ route('privacy.terms') }}" target="_blank" class="text-muted text-decoration-none">Syarat &amp; Ketentuan</a>
+                    <a href="{{ route('privacy.policy') }}" target="_blank" class="text-muted text-decoration-none me-2">{{ __('messages.privacy_policy') }}</a>
+                    <a href="{{ route('privacy.terms') }}" target="_blank" class="text-muted text-decoration-none">{{ __('messages.terms') }}</a>
                 </span>
             </p>
         </div>
@@ -444,25 +444,25 @@
 <div id="fab-container">
     <div id="fab-actions">
         <div class="fab-action">
-            <span class="fab-label">Pengeluaran</span>
+            <span class="fab-label">{{ __('navigation.expense') }}</span>
             <a href="{{ route('transaksi.create') }}?jenis=pengeluaran" class="fab-mini bg-danger">
                 <i class="fas fa-arrow-down"></i>
             </a>
         </div>
         <div class="fab-action">
-            <span class="fab-label">Pemasukan</span>
+            <span class="fab-label">{{ __('navigation.income') }}</span>
             <a href="{{ route('transaksi.create') }}?jenis=pemasukan" class="fab-mini bg-success">
                 <i class="fas fa-arrow-up"></i>
             </a>
         </div>
         <div class="fab-action">
-            <span class="fab-label">Transfer</span>
+            <span class="fab-label">{{ __('navigation.transfer') }}</span>
             <a href="{{ route('transaksi.create') }}?jenis=transfer" class="fab-mini" style="background:var(--primary);">
                 <i class="fas fa-right-left"></i>
             </a>
         </div>
     </div>
-    <button id="fab-main" type="button" onclick="toggleFab()" title="Tambah Transaksi">
+    <button id="fab-main" type="button" onclick="toggleFab()" title="{{ __('navigation.add_transaction') }}">
         <i class="fas fa-plus"></i>
     </button>
 </div>
@@ -574,5 +574,8 @@
 </script>
 
 @stack('scripts')
+
+{{-- Modals teleported ke body-level agar tidak ter-clip container di mobile --}}
+@stack('modals')
 </body>
 </html>

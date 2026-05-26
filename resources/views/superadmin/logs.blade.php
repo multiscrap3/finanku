@@ -1,7 +1,7 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Audit Logs')
-@section('page-title', 'Audit Logs')
+@section('title', __('superadmin.logs'))
+@section('page-title', __('superadmin.logs'))
 
 @section('content')
 <div class="row g-4">
@@ -9,17 +9,17 @@
     {{-- Filter --}}
     <div class="col-12">
         <form method="GET" class="d-flex flex-wrap gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari aksi..."
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('superadmin.search') }}"
                    class="form-control form-control-sm" style="max-width:240px;">
             <select name="household_id" class="form-select form-select-sm" style="width:auto;max-width:200px;">
-                <option value="">Semua Household</option>
+                <option value="">{{ __('superadmin.households') }}</option>
                 @foreach($households as $household)
                     <option value="{{ $household->id }}" {{ request('household_id') == $household->id ? 'selected' : '' }}>
                         {{ $household->nama }}
                     </option>
                 @endforeach
             </select>
-            <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+            <button type="submit" class="btn btn-primary btn-sm">{{ __('superadmin.search') }}</button>
         </form>
     </div>
 
@@ -29,10 +29,10 @@
                 <table class="table table-sm table-hover mb-0 small">
                     <thead class="table-light">
                         <tr>
-                            <th style="white-space:nowrap;">Waktu</th>
-                            <th>User</th>
-                            <th>Household</th>
-                            <th>Aksi</th>
+                            <th style="white-space:nowrap;">{{ __('superadmin.log_time') }}</th>
+                            <th>{{ __('superadmin.log_user') }}</th>
+                            <th>{{ __('superadmin.households') }}</th>
+                            <th>{{ __('superadmin.log_action') }}</th>
                             <th>Detail</th>
                         </tr>
                     </thead>

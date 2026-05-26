@@ -39,6 +39,7 @@ class User extends Authenticatable
             'is_active'          => 'boolean',
             'dashboard_cards'    => 'array',
             'consent_given_at'   => 'datetime',
+            'last_login_at'      => 'datetime',
         ];
     }
 

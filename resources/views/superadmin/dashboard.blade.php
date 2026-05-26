@@ -1,19 +1,19 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Dashboard Superadmin')
-@section('page-title', 'Dashboard')
+@section('title', __('superadmin.dashboard'))
+@section('page-title', __('superadmin.dashboard'))
 
 @section('content')
 <div class="row g-4">
 
     {{-- Stats --}}
     @foreach([
-        ['label' => 'Total Household',    'value' => $stats['total_household'],   'icon' => 'bi-house-fill',      'color' => '#8b5cf6'],
-        ['label' => 'Household Aktif',    'value' => $stats['household_aktif'],   'icon' => 'bi-house-check-fill','color' => '#10b981'],
-        ['label' => 'Total User',         'value' => $stats['total_user'],        'icon' => 'bi-people-fill',     'color' => '#3b82f6'],
-        ['label' => 'User Aktif',         'value' => $stats['user_aktif'],        'icon' => 'bi-person-check-fill','color' => '#14b8a6'],
-        ['label' => 'Household Baru (7h)','value' => $stats['new_household_7d'],  'icon' => 'bi-house-add-fill',  'color' => '#f97316'],
-        ['label' => 'User Baru (7h)',     'value' => $stats['new_user_7d'],       'icon' => 'bi-person-plus-fill','color' => '#ec4899'],
+        ['label' => __('superadmin.total_households'), 'value' => $stats['total_household'],   'icon' => 'bi-house-fill',      'color' => '#8b5cf6'],
+        ['label' => __('superadmin.active_today'),     'value' => $stats['household_aktif'],   'icon' => 'bi-house-check-fill','color' => '#10b981'],
+        ['label' => __('superadmin.total_users'),      'value' => $stats['total_user'],        'icon' => 'bi-people-fill',     'color' => '#3b82f6'],
+        ['label' => __('superadmin.active_today'),     'value' => $stats['user_aktif'],        'icon' => 'bi-person-check-fill','color' => '#14b8a6'],
+        ['label' => __('superadmin.new_this_month'),   'value' => $stats['new_household_7d'],  'icon' => 'bi-house-add-fill',  'color' => '#f97316'],
+        ['label' => __('superadmin.new_this_month'),   'value' => $stats['new_user_7d'],       'icon' => 'bi-person-plus-fill','color' => '#ec4899'],
     ] as $stat)
         <div class="col-6 col-md-4 col-lg-2">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;">
@@ -30,17 +30,17 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
             <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center" style="border-radius:.75rem .75rem 0 0;">
-                <h6 class="fw-semibold mb-0">Household Terbaru</h6>
-                <a href="{{ route('superadmin.households') }}" class="small text-primary text-decoration-none">Lihat semua</a>
+                <h6 class="fw-semibold mb-0">{{ __('superadmin.households') }}</h6>
+                <a href="{{ route('superadmin.households') }}" class="small text-primary text-decoration-none">{{ __('superadmin.view') }}</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm table-hover mb-0 small">
                     <thead class="table-light">
                         <tr>
-                            <th>Nama</th>
-                            <th>Status</th>
+                            <th>{{ __('superadmin.name') }}</th>
+                            <th>{{ __('superadmin.status') }}</th>
                             <th>Plan</th>
-                            <th>Dibuat</th>
+                            <th>{{ __('superadmin.created') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,18 +72,18 @@
     <div class="col-12">
         <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
             <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center" style="border-radius:.75rem .75rem 0 0;">
-                <h6 class="fw-semibold mb-0">User Terbaru</h6>
-                <a href="{{ route('superadmin.users') }}" class="small text-primary text-decoration-none">Lihat semua</a>
+                <h6 class="fw-semibold mb-0">{{ __('superadmin.users') }}</h6>
+                <a href="{{ route('superadmin.users') }}" class="small text-primary text-decoration-none">{{ __('superadmin.view') }}</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm table-hover mb-0 small">
                     <thead class="table-light">
                         <tr>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Household</th>
-                            <th>Status</th>
-                            <th>Bergabung</th>
+                            <th>{{ __('superadmin.name') }}</th>
+                            <th>{{ __('superadmin.email') }}</th>
+                            <th>{{ __('superadmin.households') }}</th>
+                            <th>{{ __('superadmin.status') }}</th>
+                            <th>{{ __('superadmin.created') }}</th>
                         </tr>
                     </thead>
                     <tbody>

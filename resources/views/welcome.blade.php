@@ -19,7 +19,7 @@
                 <i class="bi bi-wallet2 text-white" style="font-size:2rem;"></i>
             </div>
             <h1 class="fw-bold fs-3 mb-1">{{ config('app.name', 'Finanku') }}</h1>
-            <p class="text-muted">Kelola keuangan rumah tangga Anda dengan lebih mudah dan terorganisir.</p>
+            <p class="text-muted">{{ __('messages.footer_tagline') }}</p>
         </div>
 
         <div class="d-flex gap-3 justify-content-center">

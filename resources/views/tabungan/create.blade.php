@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Buat Tujuan Tabungan')
-@section('page-title', 'Buat Tujuan Tabungan')
+@section('title', __('tabungan.add'))
+@section('page-title', __('tabungan.add'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -20,15 +20,15 @@
                 @endif
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Nama Tujuan <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('tabungan.name') }} <span class="text-danger">*</span></label>
                     <input type="text" name="nama" value="{{ old('nama') }}" required
-                           placeholder="Contoh: Liburan ke Bali, DP Rumah..."
+                           placeholder="{{ __('tabungan.name_ph') }}"
                            class="form-control @error('nama') is-invalid @enderror">
                     @error('nama')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Target Jumlah <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('tabungan.target') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="number" name="target" value="{{ old('target') }}" min="0" step="1000" required
@@ -39,20 +39,20 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Target Tanggal</label>
+                    <label class="form-label fw-medium">{{ __('tabungan.deadline') }}</label>
                     <input type="date" name="tanggal_target" value="{{ old('tanggal_target') }}"
                            class="form-control">
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-medium">Deskripsi</label>
-                    <textarea name="keterangan" rows="3" placeholder="Catatan tambahan..."
+                    <label class="form-label fw-medium">{{ __('tabungan.notes') }}</label>
+                    <textarea name="keterangan" rows="3" placeholder="{{ __('tabungan.notes') }}"
                               class="form-control">{{ old('keterangan') }}</textarea>
                 </div>
 
                 <div class="d-flex gap-2 pt-2">
-                    <button type="submit" class="btn btn-primary flex-fill fw-medium">Buat Tujuan</button>
-                    <a href="{{ route('tabungan.index') }}" class="btn btn-outline-secondary flex-fill">Batal</a>
+                    <button type="submit" class="btn btn-primary flex-fill fw-medium">{{ __('tabungan.save') }}</button>
+                    <a href="{{ route('tabungan.index') }}" class="btn btn-outline-secondary flex-fill">{{ __('tabungan.cancel') }}</a>
                 </div>
             </form>
         </div>

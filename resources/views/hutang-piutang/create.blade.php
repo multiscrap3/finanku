@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Tambah Hutang / Piutang')
-@section('page-title', 'Tambah Hutang / Piutang')
+@section('title', __('hutang.add'))
+@section('page-title', __('hutang.add'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -20,15 +20,15 @@
                 @endif
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Jenis <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('hutang.type') }} <span class="text-danger">*</span></label>
                     <div class="row g-2">
                         <div class="col-6">
                             <div class="form-check border rounded p-3 {{ old('jenis') !== 'piutang' ? 'border-danger bg-danger bg-opacity-10' : 'border-2' }}" style="cursor:pointer;">
                                 <input class="form-check-input" type="radio" name="jenis" value="hutang" id="jenisHutang"
                                        {{ old('jenis', 'hutang') === 'hutang' ? 'checked' : '' }}>
                                 <label class="form-check-label w-100" for="jenisHutang" style="cursor:pointer;">
-                                    <div class="fw-medium small">Hutang</div>
-                                    <div class="text-muted" style="font-size:.7rem;">Kamu yang berhutang</div>
+                                    <div class="fw-medium small">{{ __('hutang.debt') }}</div>
+                                    <div class="text-muted" style="font-size:.7rem;">{{ __('hutang.add_debt') }}</div>
                                 </label>
                             </div>
                         </div>
@@ -37,8 +37,8 @@
                                 <input class="form-check-input" type="radio" name="jenis" value="piutang" id="jenisPiutang"
                                        {{ old('jenis') === 'piutang' ? 'checked' : '' }}>
                                 <label class="form-check-label w-100" for="jenisPiutang" style="cursor:pointer;">
-                                    <div class="fw-medium small">Piutang</div>
-                                    <div class="text-muted" style="font-size:.7rem;">Orang yang berhutang</div>
+                                    <div class="fw-medium small">{{ __('hutang.credit') }}</div>
+                                    <div class="text-muted" style="font-size:.7rem;">{{ __('hutang.add_credit') }}</div>
                                 </label>
                             </div>
                         </div>
@@ -46,15 +46,15 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Nama Pihak <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('hutang.counterparty') }} <span class="text-danger">*</span></label>
                     <input type="text" name="nama_pihak" value="{{ old('nama_pihak') }}" required
-                           placeholder="Nama orang / perusahaan"
+                           placeholder="{{ __('hutang.counterparty_ph') }}"
                            class="form-control @error('nama_pihak') is-invalid @enderror">
                     @error('nama_pihak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Jumlah <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('hutang.amount') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="number" name="jumlah" value="{{ old('jumlah') }}" min="1" step="1000" required
@@ -66,24 +66,24 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-6">
-                        <label class="form-label fw-medium">Tanggal</label>
+                        <label class="form-label fw-medium">{{ __('messages.date') }}</label>
                         <input type="date" name="tanggal" value="{{ old('tanggal', now()->format('Y-m-d')) }}" class="form-control">
                     </div>
                     <div class="col-6">
-                        <label class="form-label fw-medium">Jatuh Tempo</label>
+                        <label class="form-label fw-medium">{{ __('hutang.due_date') }}</label>
                         <input type="date" name="jatuh_tempo" value="{{ old('jatuh_tempo') }}" class="form-control">
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-medium">Keterangan</label>
-                    <textarea name="keterangan" rows="3" placeholder="Untuk keperluan apa..."
+                    <label class="form-label fw-medium">{{ __('hutang.notes') }}</label>
+                    <textarea name="keterangan" rows="3" placeholder="{{ __('hutang.notes') }}"
                               class="form-control">{{ old('keterangan') }}</textarea>
                 </div>
 
                 <div class="d-flex gap-2 pt-2">
-                    <button type="submit" class="btn btn-primary flex-fill fw-medium">Simpan</button>
-                    <a href="{{ route('hutang-piutang.index') }}" class="btn btn-outline-secondary flex-fill">Batal</a>
+                    <button type="submit" class="btn btn-primary flex-fill fw-medium">{{ __('hutang.save') }}</button>
+                    <a href="{{ route('hutang-piutang.index') }}" class="btn btn-outline-secondary flex-fill">{{ __('hutang.cancel') }}</a>
                 </div>
             </form>
         </div>

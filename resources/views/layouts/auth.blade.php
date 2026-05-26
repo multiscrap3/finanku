@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Masuk') - Finanku</title>
+    <title>@yield('title', __('auth.login_btn')) - Finanku</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
@@ -33,10 +33,10 @@
                     </a>
 
                     <h2 class="text-white fw-bold mb-3" style="font-size:2rem;line-height:1.3;">
-                        Kelola keuangan<br>rumah tangga<br>dengan mudah
+                        {!! nl2br(e(__('auth.tagline'))) !!}
                     </h2>
                     <p style="color:rgba(255,255,255,.75);font-size:1rem;">
-                        Satu platform untuk seluruh kebutuhan<br>keuangan keluarga Anda.
+                        {{ __('auth.tagline_sub') }}
                     </p>
 
                     <div class="mt-5 d-flex flex-column gap-4">
@@ -46,8 +46,8 @@
                                 <i class="bi bi-bar-chart-fill text-white fs-5"></i>
                             </div>
                             <div>
-                                <div class="text-white fw-semibold">Laporan Lengkap</div>
-                                <div style="color:rgba(255,255,255,.65);font-size:.875rem;">Harian, mingguan, bulanan, tahunan</div>
+                                <div class="text-white fw-semibold">{{ __('auth.feature_reports') }}</div>
+                                <div style="color:rgba(255,255,255,.65);font-size:.875rem;">{{ __('auth.feature_reports_sub') }}</div>
                             </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
@@ -56,8 +56,8 @@
                                 <i class="bi bi-people-fill text-white fs-5"></i>
                             </div>
                             <div>
-                                <div class="text-white fw-semibold">Kelola Bersama</div>
-                                <div style="color:rgba(255,255,255,.65);font-size:.875rem;">Satu akun untuk seluruh keluarga</div>
+                                <div class="text-white fw-semibold">{{ __('auth.feature_family') }}</div>
+                                <div style="color:rgba(255,255,255,.65);font-size:.875rem;">{{ __('auth.feature_family_sub') }}</div>
                             </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
@@ -66,20 +66,20 @@
                                 <i class="bi bi-piggy-bank-fill text-white fs-5"></i>
                             </div>
                             <div>
-                                <div class="text-white fw-semibold">Tabungan & Anggaran</div>
-                                <div style="color:rgba(255,255,255,.65);font-size:.875rem;">Pantau target keuangan keluarga</div>
+                                <div class="text-white fw-semibold">{{ __('auth.feature_savings') }}</div>
+                                <div style="color:rgba(255,255,255,.65);font-size:.875rem;">{{ __('auth.feature_savings_sub') }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <p class="px-5 pb-4 mb-0" style="color:rgba(255,255,255,.45);font-size:.8rem;">
-                    &copy; {{ date('Y') }} Finanku. Semua hak dilindungi.
+                    &copy; {{ date('Y') }} Finanku. {{ __('messages.all_rights') }}
                     &nbsp;&middot;&nbsp; v{{ config('app.version') }}
                     &nbsp;&middot;&nbsp;
-                    <a href="{{ route('privacy.policy') }}" style="color:rgba(255,255,255,.45);">Kebijakan Privasi</a>
+                    <a href="{{ route('privacy.policy') }}" style="color:rgba(255,255,255,.45);">{{ __('messages.privacy_policy') }}</a>
                     &nbsp;&middot;&nbsp;
-                    <a href="{{ route('privacy.terms') }}" style="color:rgba(255,255,255,.45);">Syarat &amp; Ketentuan</a>
+                    <a href="{{ route('privacy.terms') }}" style="color:rgba(255,255,255,.45);">{{ __('messages.terms') }}</a>
                 </p>
             </div>
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Setup Household - Finanku</title>
+    <title>{{ __('onboarding.title') }} - Finanku</title>
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('dompet/icons/bootstrap-icons/font/bootstrap-icons.css') }}">
@@ -41,13 +41,13 @@
              style="width:56px;height:56px;background:var(--primary);">
             <span style="color:#fff;font-weight:700;font-size:1.4rem;">F</span>
         </div>
-        <h4 class="fw-bold text-dark mb-0">Setup Finanku</h4>
-        <p class="text-muted small">Selesaikan setup awal untuk mulai menggunakan Finanku</p>
+        <h4 class="fw-bold text-dark mb-0">{{ __('onboarding.title') }}</h4>
+        <p class="text-muted small">{{ __('onboarding.subtitle') }}</p>
     </div>
 
     {{-- Stepper --}}
     <div class="d-flex align-items-center justify-content-center mb-4">
-        @foreach([1 => 'Household', 2 => 'Sumber Dana', 3 => 'Anggaran', 4 => 'Rutin', 5 => 'Selesai'] as $num => $label)
+        @foreach([1 => __('onboarding.step_household'), 2 => __('onboarding.step_account'), 3 => __('onboarding.step_budget'), 4 => __('onboarding.step_recurring'), 5 => __('onboarding.step_done')] as $num => $label)
             <div class="d-flex flex-column align-items-center">
                 <div class="step-circle {{ $num < $step ? 'done' : ($num === $step ? 'active' : 'todo') }}">
                     @if($num < $step)
@@ -106,8 +106,8 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">Lewati setup</a>
-                        <button type="submit" class="btn btn-primary px-4">Lanjut &rarr;</button>
+                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">{{ __('onboarding.skip') }}</a>
+                        <button type="submit" class="btn btn-primary px-4">{{ __('onboarding.next') }} &rarr;</button>
                     </div>
                 </form>
 
@@ -125,8 +125,8 @@
                     </button>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">Lewati</a>
-                        <button type="submit" class="btn btn-primary px-4">Lanjut &rarr;</button>
+                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">{{ __('onboarding.skip') }}</a>
+                        <button type="submit" class="btn btn-primary px-4">{{ __('onboarding.next') }} &rarr;</button>
                     </div>
                 </form>
 
@@ -144,8 +144,8 @@
                     </button>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">Lewati</a>
-                        <button type="submit" class="btn btn-primary px-4">Lanjut &rarr;</button>
+                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">{{ __('onboarding.skip') }}</a>
+                        <button type="submit" class="btn btn-primary px-4">{{ __('onboarding.next') }} &rarr;</button>
                     </div>
                 </form>
 
@@ -163,8 +163,8 @@
                     </button>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">Lewati</a>
-                        <button type="submit" class="btn btn-primary px-4">Lanjut &rarr;</button>
+                        <a href="{{ route('onboarding.skip') }}" class="text-muted small">{{ __('onboarding.skip') }}</a>
+                        <button type="submit" class="btn btn-primary px-4">{{ __('onboarding.next') }} &rarr;</button>
                     </div>
                 </form>
 
@@ -175,8 +175,8 @@
                          style="width:80px;height:80px;background:#d1fae5;">
                         <i class="bi bi-check-circle-fill text-success" style="font-size:2.5rem;"></i>
                     </div>
-                    <h4 class="fw-bold mb-2">Setup Selesai!</h4>
-                    <p class="text-muted mb-4">Household kamu sudah siap. Mulai catat transaksi dan kelola keuangan bersama.</p>
+                    <h4 class="fw-bold mb-2">{{ __('onboarding.done_title') }}</h4>
+                    <p class="text-muted mb-4">{{ __('onboarding.done_subtitle') }}</p>
 
                     @if($sumberTransaksi->isEmpty())
                         <div class="alert alert-warning text-start small">
@@ -189,7 +189,7 @@
                         @csrf
                         <div class="d-grid mb-3">
                             <button type="submit" class="btn btn-primary btn-lg fw-semibold">
-                                Mulai Gunakan Finanku
+                                {{ __('onboarding.finish') }}
                             </button>
                         </div>
                     </form>

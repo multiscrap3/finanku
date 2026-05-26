@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Bulanan')
-@section('page-title', 'Laporan Bulanan')
+@section('title', __('laporan.monthly'))
+@section('page-title', __('laporan.monthly'))
 
 @section('content')
 <div class="row g-4">
@@ -13,7 +13,7 @@
                 <form method="GET">
                     <div class="row g-2 align-items-end">
                         <div class="col-6 col-sm-auto">
-                            <label class="form-label small fw-medium text-muted mb-1">Bulan</label>
+                            <label class="form-label small fw-medium text-muted mb-1">{{ __('laporan.month') }}</label>
                             <select name="bulan" class="form-select form-select-sm">
                                 @foreach(range(1, 12) as $b)
                                     <option value="{{ $b }}" {{ (request('bulan', now()->month) == $b) ? 'selected' : '' }}>
@@ -23,7 +23,7 @@
                             </select>
                         </div>
                         <div class="col-6 col-sm-auto">
-                            <label class="form-label small fw-medium text-muted mb-1">Tahun</label>
+                            <label class="form-label small fw-medium text-muted mb-1">{{ __('laporan.year') }}</label>
                             <select name="tahun" class="form-select form-select-sm">
                                 @foreach(range(now()->year, now()->year - 3) as $y)
                                     <option value="{{ $y }}" {{ request('tahun', now()->year) == $y ? 'selected' : '' }}>{{ $y }}</option>
@@ -31,12 +31,12 @@
                             </select>
                         </div>
                         <div class="col-6 col-sm-auto">
-                            <button type="submit" class="btn btn-primary btn-sm w-100">Tampilkan</button>
+                            <button type="submit" class="btn btn-primary btn-sm w-100">{{ __('messages.apply') }}</button>
                         </div>
                         <div class="col-6 col-sm-auto">
                             <a href="{{ route('laporan.export') }}?{{ request()->getQueryString() }}&format=excel"
                                class="btn btn-outline-secondary btn-sm w-100">
-                                <i class="bi bi-download me-1"></i>Export
+                                <i class="bi bi-download me-1"></i>{{ __('laporan.export') }}
                             </a>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
         <div class="col-6 col-md-3">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #10b981;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Total Pemasukan</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.total') }} {{ __('laporan.income') }}</div>
                     <div class="fw-bold fs-6 text-success">Rp {{ number_format($data['total_pemasukan'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
         <div class="col-6 col-md-3">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #ef4444;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Total Pengeluaran</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.total') }} {{ __('laporan.expense') }}</div>
                     <div class="fw-bold fs-6 text-danger">Rp {{ number_format($data['total_pengeluaran'] ?? 0, 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
         <div class="col-6 col-md-3">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;border-top:3px solid #3b82f6;">
                 <div class="card-body p-3">
-                    <div class="small text-muted mb-1">Cashflow</div>
+                    <div class="small text-muted mb-1">{{ __('laporan.balance') }}</div>
                     <div class="fw-bold fs-6 text-primary">Rp {{ number_format(($data['cashflow'] ?? 0), 0, ',', '.') }}</div>
                 </div>
             </div>
@@ -84,11 +84,11 @@
         <div class="col-12 col-md-6">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;">
                 <div class="card-body p-4">
-                    <h6 class="fw-semibold mb-4">Pengeluaran per Kategori</h6>
+                    <h6 class="fw-semibold mb-4">{{ __('laporan.expense') }} {{ __('laporan.by_category') }}</h6>
                     @if(!empty($data['pengeluaran_per_kategori']))
                         <canvas id="chartKategori" height="200"></canvas>
                     @else
-                        <p class="text-muted small text-center py-4">Belum ada data.</p>
+                        <p class="text-muted small text-center py-4">{{ __('laporan.no_data') }}</p>
                     @endif
                 </div>
             </div>
@@ -96,14 +96,14 @@
         <div class="col-12 col-md-6">
             <div class="card border-0 shadow-sm h-100" style="border-radius:.75rem;">
                 <div class="card-body p-4">
-                    <h6 class="fw-semibold mb-4">Rincian per Kategori</h6>
+                    <h6 class="fw-semibold mb-4">{{ __('laporan.detail') }} {{ __('laporan.by_category') }}</h6>
                     @forelse($data['pengeluaran_per_kategori'] ?? [] as $kat)
                         <div class="d-flex justify-content-between align-items-center small mb-2">
                             <span class="text-dark">{{ $kat['nama'] ?? '-' }}</span>
                             <span class="fw-medium text-danger">Rp {{ number_format($kat['total'] ?? 0, 0, ',', '.') }}</span>
                         </div>
                     @empty
-                        <p class="text-muted small">Belum ada pengeluaran.</p>
+                        <p class="text-muted small">{{ __('laporan.no_data') }}</p>
                     @endforelse
                 </div>
             </div>
@@ -113,7 +113,7 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                 <div class="card-header bg-white border-bottom py-3 px-4" style="border-radius:.75rem .75rem 0 0;">
-                    <h6 class="fw-semibold mb-0">Semua Transaksi</h6>
+                    <h6 class="fw-semibold mb-0">{{ __('laporan.transactions') }}</h6>
                 </div>
                 <div class="card-body p-0">
                     @forelse($data['transaksi'] ?? [] as $t)
@@ -130,7 +130,7 @@
                             </div>
                         </a>
                     @empty
-                        <div class="py-5 text-center text-muted small">Tidak ada transaksi pada periode ini.</div>
+                        <div class="py-5 text-center text-muted small">{{ __('laporan.no_data') }}</div>
                     @endforelse
                 </div>
             </div>
@@ -139,7 +139,7 @@
         <div class="col-12">
             <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                 <div class="card-body py-5 text-center text-muted small">
-                    Pilih bulan dan tahun lalu klik Tampilkan.
+                    {{ __('laporan.no_data') }}
                 </div>
             </div>
         </div>

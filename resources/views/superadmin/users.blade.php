@@ -1,7 +1,7 @@
 @extends('layouts.superadmin')
 
-@section('title', 'Users')
-@section('page-title', 'Users')
+@section('title', __('superadmin.users'))
+@section('page-title', __('superadmin.users'))
 
 @section('content')
 <div class="row g-4">
@@ -9,14 +9,14 @@
     {{-- Filter --}}
     <div class="col-12">
         <form method="GET" class="d-flex flex-wrap gap-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama atau email..."
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="{{ __('superadmin.search') }}"
                    class="form-control form-control-sm" style="max-width:260px;">
             <select name="status" class="form-select form-select-sm" style="width:auto;">
                 <option value="">Semua Status</option>
                 <option value="aktif"    {{ request('status') === 'aktif'    ? 'selected' : '' }}>Aktif</option>
                 <option value="nonaktif" {{ request('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
             </select>
-            <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+            <button type="submit" class="btn btn-primary btn-sm">{{ __('superadmin.search') }}</button>
         </form>
     </div>
 
@@ -26,12 +26,12 @@
                 <table class="table table-sm table-hover mb-0 small">
                     <thead class="table-light">
                         <tr>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Household</th>
+                            <th>{{ __('superadmin.name') }}</th>
+                            <th>{{ __('superadmin.email') }}</th>
+                            <th>{{ __('superadmin.households') }}</th>
                             <th>Role</th>
-                            <th>Status</th>
-                            <th>Bergabung</th>
+                            <th>{{ __('superadmin.status') }}</th>
+                            <th>{{ __('superadmin.created') }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -63,7 +63,7 @@
                                             <button type="submit"
                                                     class="btn btn-link btn-sm p-0 {{ $user->is_active ? 'text-danger' : 'text-success' }}"
                                                     style="font-size:.78rem;">
-                                                {{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
+                                                {{ $user->is_active ? __('superadmin.ban') : __('superadmin.unban') }}
                                             </button>
                                         </form>
                                     @endif

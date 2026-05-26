@@ -1,12 +1,13 @@
-<?php $__env->startSection('title', 'Transaksi Rutin'); ?>
-<?php $__env->startSection('page-title', 'Transaksi Rutin'); ?>
+<?php $__env->startSection('title', __('recurring.title')); ?>
+<?php $__env->startSection('page-title', __('recurring.title')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="row g-4">
 
     <div class="col-12 d-flex justify-content-end">
         <a href="<?php echo e(route('recurring.create')); ?>" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-lg me-1"></i>Tambah Transaksi Rutin
+            <i class="bi bi-plus-lg me-1"></i><?php echo e(__('recurring.add')); ?>
+
         </a>
     </div>
 
@@ -25,7 +26,7 @@
                             <div class="text-muted d-flex align-items-center gap-1 flex-wrap" style="font-size:.72rem;">
                                 <span class="text-capitalize"><?php echo e($item->frekuensi); ?></span>
                                 <span>&bull;</span>
-                                <span>Mulai <?php echo e($item->tanggal_mulai->translatedFormat('d M Y')); ?></span>
+                                <span><?php echo e(__('recurring.start_date')); ?> <?php echo e($item->tanggal_mulai->translatedFormat('d M Y')); ?></span>
                                 <?php if($item->sumberTransaksi): ?>
                                     <span>&bull;</span>
                                     <span><?php echo e($item->sumberTransaksi->nama); ?></span>
@@ -39,24 +40,25 @@
                             </div>
                             <div class="d-flex align-items-center gap-2 mt-1 justify-content-end" style="font-size:.72rem;">
                                 <span class="badge rounded-pill <?php echo e($item->is_active ? 'bg-success' : 'bg-secondary'); ?>"
-                                      style="font-size:.6rem;"><?php echo e($item->is_active ? 'Aktif' : 'Nonaktif'); ?></span>
+                                      style="font-size:.6rem;"><?php echo e($item->is_active ? __('recurring.active') : __('recurring.inactive')); ?></span>
                                 <form method="POST" action="<?php echo e(route('recurring.toggle', $item)); ?>" class="d-inline">
                                     <?php echo csrf_field(); ?>
                                     <button type="submit" class="btn btn-link btn-sm p-0 text-primary" style="font-size:.72rem;">
-                                        <?php echo e($item->is_active ? 'Jeda' : 'Aktifkan'); ?>
+                                        <?php echo e($item->is_active ? __('recurring.inactive') : __('recurring.active')); ?>
 
                                     </button>
                                 </form>
-                                <a href="<?php echo e(route('recurring.edit', $item)); ?>" class="text-muted text-decoration-none">Edit</a>
+                                <a href="<?php echo e(route('recurring.edit', $item)); ?>" class="text-muted text-decoration-none"><?php echo e(__('messages.edit')); ?></a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="py-5 text-center">
                         <i class="bi bi-arrow-repeat fs-1 d-block mb-2 text-muted opacity-25"></i>
-                        <p class="text-muted small mb-2">Belum ada transaksi rutin.</p>
+                        <p class="text-muted small mb-2"><?php echo e(__('recurring.no_recurring')); ?></p>
                         <a href="<?php echo e(route('recurring.create')); ?>" class="small text-primary fw-medium text-decoration-none">
-                            + Tambah sekarang
+                            + <?php echo e(__('messages.add')); ?>
+
                         </a>
                     </div>
                 <?php endif; ?>

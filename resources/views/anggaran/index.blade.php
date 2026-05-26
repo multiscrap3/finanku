@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Anggaran')
-@section('page-title', 'Anggaran Bulanan')
+@section('title', __('anggaran.title'))
+@section('page-title', __('anggaran.title'))
 
 @section('content')
 <div class="row g-4">
 
     <div class="col-12 d-flex justify-content-end">
         <a href="{{ route('anggaran.create') }}" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-lg me-1"></i>Set Anggaran
+            <i class="bi bi-plus-lg me-1"></i>{{ __('anggaran.add') }}
         </a>
     </div>
 
@@ -25,16 +25,16 @@
                         <div>
                             <div class="fw-semibold small">{{ $item->kategori?->nama ?? 'Tanpa Kategori' }}</div>
                             <div class="text-muted" style="font-size:.72rem;">
-                                Terpakai: Rp {{ number_format($item->terpakai ?? 0, 0, ',', '.') }} / Rp {{ number_format($item->limit, 0, ',', '.') }}
+                                {{ __('anggaran.used') }}: Rp {{ number_format($item->terpakai ?? 0, 0, ',', '.') }} / Rp {{ number_format($item->limit, 0, ',', '.') }}
                             </div>
                         </div>
                         <div class="d-flex align-items-center gap-3">
                             <span class="small fw-bold {{ $textClass }}">{{ number_format($persen, 0) }}%</span>
-                            <a href="{{ route('anggaran.edit', $item) }}" class="small text-primary text-decoration-none">Edit</a>
+                            <a href="{{ route('anggaran.edit', $item) }}" class="small text-primary text-decoration-none">{{ __('messages.edit') }}</a>
                             <form method="POST" action="{{ route('anggaran.destroy', $item) }}"
-                                  onsubmit="return confirm('Hapus anggaran ini?')" class="d-inline">
+                                  onsubmit="return confirm('{{ __('anggaran.delete_confirm') }}')" class="d-inline">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">Hapus</button>
+                                <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">{{ __('messages.delete') }}</button>
                             </form>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     </div>
                     @if($persen >= 90)
                         <p class="text-danger small mt-1 mb-0">
-                            <i class="bi bi-exclamation-triangle me-1"></i>Anggaran hampir habis!
+                            <i class="bi bi-exclamation-triangle me-1"></i>{{ __('anggaran.overspent') }}
                         </p>
                     @endif
                 </div>
@@ -55,9 +55,9 @@
             <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
                 <div class="card-body py-5 text-center">
                     <i class="bi bi-calculator fs-1 d-block mb-2 text-muted opacity-25"></i>
-                    <p class="text-muted small mb-2">Belum ada anggaran yang diset.</p>
+                    <p class="text-muted small mb-2">{{ __('anggaran.no_budgets') }}</p>
                     <a href="{{ route('anggaran.create') }}" class="small text-primary fw-medium text-decoration-none">
-                        + Set anggaran pertama
+                        + {{ __('anggaran.add') }}
                     </a>
                 </div>
             </div>

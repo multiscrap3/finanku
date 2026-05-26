@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use App\Http\Middleware\CheckPlanLimitMiddleware;
 use App\Http\Middleware\CronSecretMiddleware;
 use App\Http\Middleware\HouseholdMiddleware;
+use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Middleware\LogActivityMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\SuperadminGlobalMiddleware;
@@ -17,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append: [
+            LocaleMiddleware::class,
+        ]);
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'household' => HouseholdMiddleware::class,

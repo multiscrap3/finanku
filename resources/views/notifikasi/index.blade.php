@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Notifikasi')
-@section('page-title', 'Notifikasi')
+@section('title', __('notifikasi.title'))
+@section('page-title', __('notifikasi.title'))
 
 @section('content')
 <div class="row g-3 justify-content-center">
@@ -13,7 +13,7 @@
         @if($notifikasi->isNotEmpty())
             <form method="POST" action="{{ route('notifikasi.mark-all-read') }}">
                 @csrf
-                <button type="submit" class="btn btn-link btn-sm p-0 text-primary">Tandai semua dibaca</button>
+                <button type="submit" class="btn btn-link btn-sm p-0 text-primary">{{ __('notifikasi.mark_all_read') }}</button>
             </form>
         @endif
     </div>
@@ -56,7 +56,7 @@
                     @if(!$notif->is_read)
                         <form method="POST" action="{{ route('notifikasi.mark-read', $notif) }}" class="d-flex align-items-start flex-shrink-0">
                             @csrf
-                            <button type="submit" class="btn btn-link btn-sm p-0 text-primary" style="font-size:.72rem;">Baca</button>
+                            <button type="submit" class="btn btn-link btn-sm p-0 text-primary" style="font-size:.72rem;">{{ __('notifikasi.mark_read') }}</button>
                         </form>
                     @endif
                 </div>
@@ -66,7 +66,7 @@
                          style="width:56px;height:56px;background:#f3f4f6;">
                         <i class="bi bi-bell fs-4 text-muted"></i>
                     </div>
-                    <p class="text-muted small">Tidak ada notifikasi.</p>
+                    <p class="text-muted small">{{ __('notifikasi.no_notif') }}</p>
                 </div>
             @endforelse
         </div>

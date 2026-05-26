@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Anggaran')
-@section('page-title', 'Detail Anggaran')
+@section('title', __('anggaran.detail'))
+@section('page-title', __('anggaran.detail'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -17,11 +17,11 @@
                     </p>
                 </div>
                 <div class="d-flex gap-3">
-                    <a href="{{ route('anggaran.edit', $anggaran) }}" class="small text-primary text-decoration-none">Edit</a>
+                    <a href="{{ route('anggaran.edit', $anggaran) }}" class="small text-primary text-decoration-none">{{ __('messages.edit') }}</a>
                     <form method="POST" action="{{ route('anggaran.destroy', $anggaran) }}"
-                          onsubmit="return confirm('Hapus anggaran ini?')" class="d-inline">
+                          onsubmit="return confirm('{{ __('anggaran.delete_confirm') }}')" class="d-inline">
                         @csrf @method('DELETE')
-                        <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">Hapus</button>
+                        <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">{{ __('messages.delete') }}</button>
                     </form>
                 </div>
             </div>
@@ -31,13 +31,13 @@
             <div class="row g-3 mb-4 text-center">
                 <div class="col-4">
                     <div class="bg-light rounded p-3">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Anggaran</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('anggaran.limit') }}</div>
                         <div class="fw-bold">Rp {{ number_format($realisasi['jumlah'], 0, ',', '.') }}</div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="bg-light rounded p-3">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Terpakai</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('anggaran.used') }}</div>
                         <div class="fw-bold {{ $realisasi['over_budget'] ? 'text-danger' : 'text-primary' }}">
                             Rp {{ number_format($realisasi['terpakai'], 0, ',', '.') }}
                         </div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-4">
                     <div class="bg-light rounded p-3">
-                        <div class="text-muted mb-1" style="font-size:.72rem;">Sisa</div>
+                        <div class="text-muted mb-1" style="font-size:.72rem;">{{ __('anggaran.remaining') }}</div>
                         <div class="fw-bold {{ $realisasi['sisa'] < 0 ? 'text-danger' : 'text-success' }}">
                             Rp {{ number_format(abs($realisasi['sisa']), 0, ',', '.') }}
                             @if($realisasi['sisa'] < 0)<small>(lebih)</small>@endif
@@ -78,7 +78,7 @@
     </div>
 
     <a href="{{ route('anggaran.index') }}" class="btn btn-link btn-sm text-muted text-decoration-none p-0">
-        &larr; Kembali ke daftar anggaran
+        &larr; {{ __('messages.back') }}
     </a>
 
 </div>

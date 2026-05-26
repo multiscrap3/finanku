@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="<?php echo e(app()->getLocale()); ?>">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -187,7 +187,7 @@
                     
                     <div class="header-left d-flex align-items-center gap-2">
                         
-                        <button type="button" id="mobileNavToggle" class="mobile-hamburger" aria-label="Buka menu">
+                        <button type="button" id="mobileNavToggle" class="mobile-hamburger" aria-label="<?php echo e(__('messages.open_menu')); ?>">
                             <i class="bi bi-list fs-4"></i>
                         </button>
                         <div class="dashboard_bar"><?php echo $__env->yieldContent('page-title', 'Dashboard'); ?></div>
@@ -198,14 +198,14 @@
 
                         
                         <li class="nav-item dropdown notification_dropdown">
-                            <a class="nav-link" href="<?php echo e(route('notifikasi.index')); ?>" title="Notifikasi">
+                            <a class="nav-link" href="<?php echo e(route('notifikasi.index')); ?>" title="<?php echo e(__('messages.notifications')); ?>">
                                 <i class="bi bi-bell fs-5"></i>
                             </a>
                         </li>
 
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" id="darkModeToggle" title="Ganti Tema">
+                            <a class="nav-link" href="javascript:void(0);" id="darkModeToggle" title="<?php echo e(__('messages.toggle_theme')); ?>">
                                 <i class="bi bi-moon-stars-fill fs-5" id="darkModeIcon"></i>
                             </a>
                         </li>
@@ -229,14 +229,16 @@
                             <div class="dropdown-menu dropdown-menu-end">
                                 <a href="<?php echo e(route('settings.index')); ?>" class="dropdown-item ai-icon">
                                     <i class="bi bi-person-circle text-primary me-2"></i>
-                                    Profil & Pengaturan
+                                    <?php echo e(__('messages.profile_settings')); ?>
+
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <form method="POST" action="<?php echo e(route('logout')); ?>">
                                     <?php echo csrf_field(); ?>
                                     <button type="submit" class="dropdown-item ai-icon text-danger">
                                         <i class="bi bi-box-arrow-right me-2"></i>
-                                        Keluar
+                                        <?php echo e(__('messages.logout')); ?>
+
                                     </button>
                                 </form>
                             </div>
@@ -269,7 +271,7 @@
                 <li class="<?php echo e(request()->routeIs('dashboard') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('dashboard')); ?>" aria-expanded="false">
                         <i class="bi bi-house-door"></i>
-                        <span class="nav-text">Dashboard</span>
+                        <span class="nav-text"><?php echo e(__('navigation.dashboard')); ?></span>
                     </a>
                 </li>
 
@@ -278,11 +280,11 @@
                     <a class="<?php echo e(request()->routeIs('transaksi.*') || request()->routeIs('import-bank.*') ? '' : 'has-arrow'); ?>"
                        href="javascript:void(0);" aria-expanded="<?php echo e(request()->routeIs('transaksi.*') || request()->routeIs('import-bank.*') ? 'true' : 'false'); ?>">
                         <i class="bi bi-arrow-left-right"></i>
-                        <span class="nav-text">Transaksi</span>
+                        <span class="nav-text"><?php echo e(__('navigation.transactions')); ?></span>
                     </a>
                     <ul aria-expanded="<?php echo e(request()->routeIs('transaksi.*') || request()->routeIs('import-bank.*') ? 'true' : 'false'); ?>">
-                        <li><a href="<?php echo e(route('transaksi.index')); ?>" class="<?php echo e(request()->routeIs('transaksi.*') ? 'mm-active' : ''); ?>">Semua Transaksi</a></li>
-                        <li><a href="<?php echo e(route('import-bank.web.index')); ?>" class="<?php echo e(request()->routeIs('import-bank.*') ? 'mm-active' : ''); ?>">Import Bank</a></li>
+                        <li><a href="<?php echo e(route('transaksi.index')); ?>" class="<?php echo e(request()->routeIs('transaksi.*') ? 'mm-active' : ''); ?>"><?php echo e(__('navigation.all_transactions')); ?></a></li>
+                        <li><a href="<?php echo e(route('import-bank.web.index')); ?>" class="<?php echo e(request()->routeIs('import-bank.*') ? 'mm-active' : ''); ?>"><?php echo e(__('navigation.import_bank')); ?></a></li>
                     </ul>
                 </li>
 
@@ -290,7 +292,7 @@
                 <li class="<?php echo e(request()->routeIs('laporan.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('laporan.index')); ?>" aria-expanded="false">
                         <i class="bi bi-bar-chart-line"></i>
-                        <span class="nav-text">Laporan</span>
+                        <span class="nav-text"><?php echo e(__('navigation.reports')); ?></span>
                     </a>
                 </li>
 
@@ -298,7 +300,7 @@
                 <li class="<?php echo e(request()->routeIs('anggaran.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('anggaran.index')); ?>" aria-expanded="false">
                         <i class="bi bi-calculator"></i>
-                        <span class="nav-text">Anggaran</span>
+                        <span class="nav-text"><?php echo e(__('navigation.budget')); ?></span>
                     </a>
                 </li>
 
@@ -306,7 +308,7 @@
                 <li class="<?php echo e(request()->routeIs('tabungan.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('tabungan.index')); ?>" aria-expanded="false">
                         <i class="bi bi-piggy-bank"></i>
-                        <span class="nav-text">Tabungan</span>
+                        <span class="nav-text"><?php echo e(__('navigation.savings')); ?></span>
                     </a>
                 </li>
 
@@ -314,7 +316,7 @@
                 <li class="<?php echo e(request()->routeIs('hutang-piutang.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('hutang-piutang.index')); ?>" aria-expanded="false">
                         <i class="bi bi-arrow-left-right"></i>
-                        <span class="nav-text">Hutang &amp; Piutang</span>
+                        <span class="nav-text"><?php echo e(__('navigation.debt')); ?></span>
                     </a>
                 </li>
 
@@ -322,20 +324,20 @@
                 <li class="<?php echo e(request()->routeIs('recurring.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('recurring.index')); ?>" aria-expanded="false">
                         <i class="bi bi-arrow-repeat"></i>
-                        <span class="nav-text">Transaksi Rutin</span>
+                        <span class="nav-text"><?php echo e(__('navigation.recurring')); ?></span>
                     </a>
                 </li>
 
                 
                 <li class="menu-title">
-                    <span>Manajemen</span>
+                    <span><?php echo e(__('navigation.management')); ?></span>
                 </li>
 
                 
                 <li class="<?php echo e(request()->routeIs('household.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('household.index')); ?>" aria-expanded="false">
                         <i class="bi bi-people"></i>
-                        <span class="nav-text">Household</span>
+                        <span class="nav-text"><?php echo e(__('navigation.household')); ?></span>
                     </a>
                 </li>
 
@@ -343,7 +345,7 @@
                 <li class="<?php echo e(request()->routeIs('kategori.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('kategori.index')); ?>" aria-expanded="false">
                         <i class="bi bi-tags"></i>
-                        <span class="nav-text">Kategori</span>
+                        <span class="nav-text"><?php echo e(__('navigation.categories')); ?></span>
                     </a>
                 </li>
 
@@ -351,7 +353,7 @@
                 <li class="<?php echo e(request()->routeIs('sumber-transaksi.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('sumber-transaksi.index')); ?>" aria-expanded="false">
                         <i class="bi bi-credit-card"></i>
-                        <span class="nav-text">Sumber Dana</span>
+                        <span class="nav-text"><?php echo e(__('navigation.fund_sources')); ?></span>
                     </a>
                 </li>
 
@@ -359,7 +361,7 @@
                 <li class="<?php echo e(request()->routeIs('tags.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('tags.index')); ?>" aria-expanded="false">
                         <i class="bi bi-bookmark"></i>
-                        <span class="nav-text">Tags</span>
+                        <span class="nav-text"><?php echo e(__('navigation.tags')); ?></span>
                     </a>
                 </li>
 
@@ -367,20 +369,20 @@
                 <li class="<?php echo e(request()->routeIs('notifikasi.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('notifikasi.index')); ?>" aria-expanded="false">
                         <i class="bi bi-bell"></i>
-                        <span class="nav-text">Notifikasi</span>
+                        <span class="nav-text"><?php echo e(__('navigation.notifications')); ?></span>
                     </a>
                 </li>
 
                 
                 <li class="menu-title">
-                    <span>Akun</span>
+                    <span><?php echo e(__('navigation.account')); ?></span>
                 </li>
 
                 
                 <li class="<?php echo e(request()->routeIs('settings.*') ? 'mm-active' : ''); ?>">
                     <a href="<?php echo e(route('settings.index')); ?>" aria-expanded="false">
                         <i class="bi bi-gear"></i>
-                        <span class="nav-text">Pengaturan</span>
+                        <span class="nav-text"><?php echo e(__('navigation.settings')); ?></span>
                     </a>
                 </li>
 
@@ -432,11 +434,12 @@
     <div class="footer">
         <div class="copyright">
             <p class="mb-0">
-                &copy; <?php echo e(date('Y')); ?> <strong>Finanku</strong>. Kelola keuangan rumah tangga dengan mudah.
+                &copy; <?php echo e(date('Y')); ?> <strong>Finanku</strong>. <?php echo e(__('messages.footer_tagline')); ?>
+
                 <span class="ms-2 text-muted" style="font-size:.75rem;">v<?php echo e(config('app.version')); ?></span>
                 <span class="ms-3" style="font-size:.75rem;">
-                    <a href="<?php echo e(route('privacy.policy')); ?>" target="_blank" class="text-muted text-decoration-none me-2">Kebijakan Privasi</a>
-                    <a href="<?php echo e(route('privacy.terms')); ?>" target="_blank" class="text-muted text-decoration-none">Syarat &amp; Ketentuan</a>
+                    <a href="<?php echo e(route('privacy.policy')); ?>" target="_blank" class="text-muted text-decoration-none me-2"><?php echo e(__('messages.privacy_policy')); ?></a>
+                    <a href="<?php echo e(route('privacy.terms')); ?>" target="_blank" class="text-muted text-decoration-none"><?php echo e(__('messages.terms')); ?></a>
                 </span>
             </p>
         </div>
@@ -449,25 +452,25 @@
 <div id="fab-container">
     <div id="fab-actions">
         <div class="fab-action">
-            <span class="fab-label">Pengeluaran</span>
+            <span class="fab-label"><?php echo e(__('navigation.expense')); ?></span>
             <a href="<?php echo e(route('transaksi.create')); ?>?jenis=pengeluaran" class="fab-mini bg-danger">
                 <i class="fas fa-arrow-down"></i>
             </a>
         </div>
         <div class="fab-action">
-            <span class="fab-label">Pemasukan</span>
+            <span class="fab-label"><?php echo e(__('navigation.income')); ?></span>
             <a href="<?php echo e(route('transaksi.create')); ?>?jenis=pemasukan" class="fab-mini bg-success">
                 <i class="fas fa-arrow-up"></i>
             </a>
         </div>
         <div class="fab-action">
-            <span class="fab-label">Transfer</span>
+            <span class="fab-label"><?php echo e(__('navigation.transfer')); ?></span>
             <a href="<?php echo e(route('transaksi.create')); ?>?jenis=transfer" class="fab-mini" style="background:var(--primary);">
                 <i class="fas fa-right-left"></i>
             </a>
         </div>
     </div>
-    <button id="fab-main" type="button" onclick="toggleFab()" title="Tambah Transaksi">
+    <button id="fab-main" type="button" onclick="toggleFab()" title="<?php echo e(__('navigation.add_transaction')); ?>">
         <i class="fas fa-plus"></i>
     </button>
 </div>
@@ -579,6 +582,9 @@
 </script>
 
 <?php echo $__env->yieldPushContent('scripts'); ?>
+
+
+<?php echo $__env->yieldPushContent('modals'); ?>
 </body>
 </html>
 <?php /**PATH C:\laragon\www\Finanku\resources\views/layouts/app.blade.php ENDPATH**/ ?>

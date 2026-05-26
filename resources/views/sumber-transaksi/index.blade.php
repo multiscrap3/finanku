@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Sumber Dana')
-@section('page-title', 'Sumber Dana')
+@section('title', __('sumber.title'))
+@section('page-title', __('sumber.title'))
 
 @section('content')
 <div class="row g-4 justify-content-center">
@@ -10,34 +10,34 @@
     {{-- Form tambah --}}
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-body p-4">
-            <h6 class="fw-semibold mb-3">Tambah Sumber Dana</h6>
+            <h6 class="fw-semibold mb-3">{{ __('sumber.add') }}</h6>
             <form method="POST" action="{{ route('sumber-transaksi.store') }}">
                 @csrf
                 <div class="row g-2 mb-3">
                     <div class="col-12">
                         <input type="text" name="nama" value="{{ old('nama') }}" required
-                               placeholder="Nama sumber (BCA Tabungan, GoPay...)"
+                               placeholder="{{ __('sumber.name_ph') }}"
                                class="form-control form-control-sm">
                     </div>
                     <div class="col-6">
                         <select name="jenis" class="form-select form-select-sm">
-                            <option value="cash">Uang Tunai</option>
-                            <option value="bank">Bank</option>
-                            <option value="e-wallet">E-Wallet</option>
-                            <option value="kartu_kredit">Kartu Kredit</option>
-                            <option value="investasi">Investasi</option>
-                            <option value="lainnya">Lainnya</option>
+                            <option value="cash">{{ __('sumber.cash') }}</option>
+                            <option value="bank">{{ __('sumber.bank') }}</option>
+                            <option value="e-wallet">{{ __('sumber.ewallet') }}</option>
+                            <option value="kartu_kredit">{{ __('sumber.other') }}</option>
+                            <option value="investasi">{{ __('sumber.investment') }}</option>
+                            <option value="lainnya">{{ __('sumber.other') }}</option>
                         </select>
                     </div>
                     <div class="col-6">
                         <div class="input-group input-group-sm">
                             <span class="input-group-text">Rp</span>
                             <input type="number" name="saldo" value="{{ old('saldo', 0) }}" min="0"
-                                   placeholder="Saldo awal" class="form-control">
+                                   placeholder="{{ __('sumber.initial_balance') }}" class="form-control">
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">Tambah</button>
+                <button type="submit" class="btn btn-primary btn-sm">{{ __('sumber.save') }}</button>
             </form>
         </div>
     </div>
@@ -46,7 +46,7 @@
     @php $totalSaldo = collect($sumberTransaksi ?? [])->sum('saldo_saat_ini'); @endphp
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;border-left:4px solid #3b82f6;">
         <div class="card-body p-3 d-flex justify-content-between align-items-center">
-            <span class="small fw-medium text-primary">Total Saldo</span>
+            <span class="small fw-medium text-primary">{{ __('sumber.current_balance') }}</span>
             <span class="fw-bold fs-6 text-primary">Rp {{ number_format($totalSaldo, 0, ',', '.') }}</span>
         </div>
     </div>
@@ -73,17 +73,17 @@
                     <div class="text-end">
                         <div class="fw-bold small">Rp {{ number_format($sumber->saldo_saat_ini, 0, ',', '.') }}</div>
                         <div class="d-flex gap-2 mt-1 justify-content-end">
-                            <a href="{{ route('sumber-transaksi.edit', $sumber) }}" class="small text-primary text-decoration-none">Edit</a>
+                            <a href="{{ route('sumber-transaksi.edit', $sumber) }}" class="small text-primary text-decoration-none">{{ __('messages.edit') }}</a>
                             <form method="POST" action="{{ route('sumber-transaksi.destroy', $sumber) }}"
-                                  onsubmit="return confirm('Hapus sumber dana ini?')" class="d-inline">
+                                  onsubmit="return confirm('{{ __('sumber.delete_confirm') }}')" class="d-inline">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">Hapus</button>
+                                <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">{{ __('messages.delete') }}</button>
                             </form>
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="py-5 text-center text-muted small">Belum ada sumber dana.</div>
+                <div class="py-5 text-center text-muted small">{{ __('sumber.no_sources') }}</div>
             @endforelse
         </div>
     </div>

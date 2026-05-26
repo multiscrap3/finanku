@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
+@section('title', __('dashboard.title'))
+@section('page-title', __('dashboard.title'))
 
 @push('styles')
 <style>
@@ -176,20 +176,20 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 {{-- ===== Page Header ===== --}}
 <div class="d-flex justify-content-between align-items-center mt-2 mb-4">
     <div>
-        <h5 class="fw-bold mb-0">Selamat datang, {{ auth()->user()->name }}!</h5>
+        <h5 class="fw-bold mb-0">{{ __('dashboard.welcome', ['name' => auth()->user()->name]) }}</h5>
         <p class="text-muted small mb-0">{{ now()->translatedFormat('l, d F Y') }}</p>
     </div>
     <div class="d-flex gap-2">
         <button type="button" id="btnEditLayout"
                 class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
             <i class="bi bi-grid"></i>
-            <span class="d-none d-sm-inline">Edit Layout</span>
+            <span class="d-none d-sm-inline">{{ __('dashboard.edit_layout') }}</span>
         </button>
         <button type="button"
                 class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasCustomize">
             <i class="bi bi-sliders"></i>
-            <span class="d-none d-sm-inline">Kustomisasi</span>
+            <span class="d-none d-sm-inline">{{ __('dashboard.customize') }}</span>
         </button>
     </div>
 </div>
@@ -213,7 +213,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
                 <span>{{ $def['label'] }}</span>
             </div>
 
-            <button type="button" class="widget-hide-btn" title="Sembunyikan"
+            <button type="button" class="widget-hide-btn" title="{{ __('dashboard.hide') }}"
                     data-widget-id="{{ $widget['id'] }}">
                 <i class="bi bi-eye-slash"></i>
             </button>
@@ -228,19 +228,19 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 {{-- ===== Floating Edit Toolbar ===== --}}
 <div id="editToolbar">
     <i class="bi bi-arrows-move text-primary"></i>
-    <span>Drag widget untuk atur posisi</span>
+    <span>{{ __('dashboard.drag_info') }}</span>
     <div class="tb-div"></div>
     <button type="button" id="btnResetInline"
             class="btn btn-sm btn-outline-light py-1 px-2" style="font-size:.76rem;">
-        <i class="bi bi-arrow-counterclockwise me-1"></i>Reset
+        <i class="bi bi-arrow-counterclockwise me-1"></i>{{ __('dashboard.reset') }}
     </button>
     <button type="button" id="btnCancelEdit"
             class="btn btn-sm btn-outline-danger py-1 px-2" style="font-size:.76rem;">
-        Batal
+        {{ __('dashboard.cancel') }}
     </button>
     <button type="button" id="btnSaveInline"
             class="btn btn-sm btn-primary py-1 px-2" style="font-size:.76rem;">
-        <i class="bi bi-check2 me-1"></i>Simpan
+        <i class="bi bi-check2 me-1"></i>{{ __('dashboard.save') }}
     </button>
 </div>
 
@@ -250,7 +250,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
     <div class="offcanvas-header border-bottom">
         <h6 class="offcanvas-title fw-bold" id="offcanvasCustomizeLabel">
-            <i class="bi bi-sliders me-2 text-primary"></i>Kustomisasi Dashboard
+            <i class="bi bi-sliders me-2 text-primary"></i>{{ __('dashboard.customize_dashboard') }}
         </h6>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
@@ -260,13 +260,13 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
         {{-- Info + Reset --}}
         <div class="px-4 py-3 bg-light border-bottom">
             <p class="text-muted small mb-2 lh-sm">
-                Drag <i class="bi bi-grip-vertical"></i> untuk urutan &nbsp;·&nbsp;
-                Toggle untuk sembunyikan &nbsp;·&nbsp;
-                Atur lebar &amp; tinggi tiap widget
+                {{ __('dashboard.drag_to_reorder') }} <i class="bi bi-grip-vertical"></i> &nbsp;·&nbsp;
+                {{ __('dashboard.toggle_hide') }} &nbsp;·&nbsp;
+                {{ __('dashboard.adjust_size') }}
             </p>
             <button type="button" id="btnResetDefault"
                     class="btn btn-sm btn-outline-secondary w-100">
-                <i class="bi bi-arrow-counterclockwise me-1"></i>Reset ke Layout Default
+                <i class="bi bi-arrow-counterclockwise me-1"></i>{{ __('dashboard.reset_default') }}
             </button>
         </div>
 
@@ -303,7 +303,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
                         {{-- Row 2: Lebar --}}
                         <div class="d-flex align-items-center gap-2 px-4 py-1">
-                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;">Lebar</span>
+                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;">{{ __('dashboard.width') }}</span>
                             <div class="btn-group size-btn-group" role="group"
                                  data-control="width" data-widget-id="{{ $widget['id'] }}">
                                 @foreach(['small' => '¼', 'medium' => '½', 'large' => '¾', 'full' => 'Full'] as $key => $label)
@@ -319,7 +319,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
                         {{-- Row 3: Tinggi --}}
                         <div class="d-flex align-items-center gap-2 px-4 pt-1 pb-3">
-                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;">Tinggi</span>
+                            <span class="text-muted flex-shrink-0" style="font-size:.68rem;width:42px;">{{ __('dashboard.height') }}</span>
                             <div class="btn-group size-btn-group" role="group"
                                  data-control="height" data-widget-id="{{ $widget['id'] }}">
                                 @foreach(['auto' => 'Auto', 'compact' => 'S', 'normal' => 'M', 'tall' => 'L'] as $key => $label)
@@ -341,7 +341,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
         {{-- Save --}}
         <div class="px-4 py-3 border-top">
             <button type="button" id="btnSaveLayout" class="btn btn-primary w-100 fw-semibold">
-                <i class="bi bi-check2-circle me-1"></i>Simpan Layout
+                <i class="bi bi-check2-circle me-1"></i>{{ __('dashboard.save_layout') }}
             </button>
         </div>
 
@@ -491,7 +491,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
     });
 
     document.getElementById('btnResetInline').addEventListener('click', function () {
-        if (!confirm('Reset urutan, ukuran dan visibilitas ke default?')) return;
+        if (!confirm('{{ __('dashboard.reset_size_confirm') }}')) return;
         applyDefaultLayout();
     });
 
@@ -501,7 +501,7 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
 
     // ── Offcanvas: reset & save ───────────────────────────────────────────
     document.getElementById('btnResetDefault').addEventListener('click', function () {
-        if (!confirm('Reset layout ke default? Semua kustomisasi akan hilang.')) return;
+        if (!confirm('{{ __('dashboard.reset_confirm') }}')) return;
         applyDefaultLayout();
     });
 
@@ -650,8 +650,8 @@ body.dashboard-editing .widget-item .widget-hide-btn  { display: flex; }
         data: {
             labels: {!! json_encode($summary['chart_data']['labels']) !!},
             datasets: [
-                { label: 'Pemasukan',   data: {!! json_encode($summary['chart_data']['pemasukan']) !!},   borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-                { label: 'Pengeluaran', data: {!! json_encode($summary['chart_data']['pengeluaran']) !!}, borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,0.08)',   tension: 0.4, fill: true, pointRadius: 4 },
+                { label: '{{ __('dashboard.income') }}',   data: {!! json_encode($summary['chart_data']['pemasukan']) !!},   borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+                { label: '{{ __('dashboard.expense') }}', data: {!! json_encode($summary['chart_data']['pengeluaran']) !!}, borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,0.08)',   tension: 0.4, fill: true, pointRadius: 4 },
             ],
         },
         options: {

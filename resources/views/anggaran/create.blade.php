@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Tambah Anggaran')
-@section('page-title', 'Tambah Anggaran')
+@section('title', __('anggaran.add'))
+@section('page-title', __('anggaran.add'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -20,10 +20,10 @@
                 @endif
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Kategori <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('anggaran.category') }} <span class="text-danger">*</span></label>
                     <select name="kategori_id" required
                             class="form-select @error('kategori_id') is-invalid @enderror">
-                        <option value="">Pilih kategori pengeluaran</option>
+                        <option value="">{{ __('anggaran.category') }}</option>
                         @foreach($kategori as $kat)
                             <option value="{{ $kat->id }}" {{ old('kategori_id') == $kat->id ? 'selected' : '' }}>{{ $kat->nama }}</option>
                         @endforeach
@@ -33,7 +33,7 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-6">
-                        <label class="form-label fw-medium">Bulan <span class="text-danger">*</span></label>
+                        <label class="form-label fw-medium">{{ __('laporan.month') }} <span class="text-danger">*</span></label>
                         <select name="bulan" required class="form-select @error('bulan') is-invalid @enderror">
                             @foreach(range(1, 12) as $b)
                                 <option value="{{ $b }}" {{ old('bulan', now()->month) == $b ? 'selected' : '' }}>
@@ -44,7 +44,7 @@
                         @error('bulan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="col-6">
-                        <label class="form-label fw-medium">Tahun <span class="text-danger">*</span></label>
+                        <label class="form-label fw-medium">{{ __('laporan.year') }} <span class="text-danger">*</span></label>
                         <select name="tahun" required class="form-select @error('tahun') is-invalid @enderror">
                             @foreach(range(now()->year, now()->year - 2) as $y)
                                 <option value="{{ $y }}" {{ old('tahun', now()->year) == $y ? 'selected' : '' }}>{{ $y }}</option>
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-medium">Batas Anggaran <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('anggaran.amount') }} <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="number" name="jumlah" value="{{ old('jumlah') }}" min="0" step="1000" required
@@ -67,8 +67,8 @@
                 </div>
 
                 <div class="d-flex gap-2 pt-2">
-                    <button type="submit" class="btn btn-primary flex-fill fw-medium">Simpan Anggaran</button>
-                    <a href="{{ route('anggaran.index') }}" class="btn btn-outline-secondary flex-fill">Batal</a>
+                    <button type="submit" class="btn btn-primary flex-fill fw-medium">{{ __('anggaran.save') }}</button>
+                    <a href="{{ route('anggaran.index') }}" class="btn btn-outline-secondary flex-fill">{{ __('anggaran.cancel') }}</a>
                 </div>
             </form>
         </div>

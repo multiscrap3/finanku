@@ -14,8 +14,60 @@ dan project ini menggunakan [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Controllers: KategoriController, SumberTransaksiController, HutangPiutangController, RecurringTransaksiController, TagController, HouseholdController, SettingController, NotifikasiController, AuthController, ProfileController
 - Services: HutangPiutangService, NotifikasiService, ExportService, ImportService, RecurringService
 - Form Requests: StoreTabunganRequest, StoreHutangPiutangRequest, UpdateProfileRequest, UpdatePasswordRequest, JoinHouseholdRequest, ImportFileRequest
-- Views: Semua blade views (30+ views)
-- Frontend: Dashboard, Transaksi, Laporan, Anggaran, Tabungan, Settings
+
+---
+
+## [1.2.1] — 2026-05-25
+
+### Fixed
+- **Download data pribadi** (`/privacy/download`): error `Call to a member function toIso8601String() on string` karena field `last_login_at` tidak di-cast ke `datetime` pada model `User` — ditambahkan cast `'last_login_at' => 'datetime'` di `User::casts()`
+- **Hapus file import bank** (`/import-bank/{id}/file`): error `SQLSTATE[23000] Column 'file_path' cannot be null` karena kolom `file_path` di tabel `import_bank` tidak nullable — ditambahkan migration `make_file_path_nullable_in_import_bank` untuk mengubah kolom menjadi `nullable`
+- **Total Saldo dashboard menampilkan data household lain**: seluruh query di `DashboardService` (total saldo, transaksi bulan ini, anggaran, tabungan, hutang piutang, chart, saldo per sumber) tidak memfilter `household_id` sehingga data lintas household bercampur — semua query ditambahkan filter `WHERE household_id = ?`
+- **Reset transaksi — perilaku saldo**: `resetTransaksiData()` kini secara eksplisit menol-kan `saldo_saat_ini` semua akun (`saldo_saat_ini = 0`) setelah semua transaksi dihapus, sesuai ekspektasi user bahwa reset berarti mulai dari Rp 0
+
+---
+
+## [1.2.0] — 2026-05-24
+
+### Added
+
+#### Fitur Reset Data Transaksi
+- **Tombol Reset Data** baru di tab *Privasi & Data* pada halaman Pengaturan — memungkinkan user menghapus seluruh riwayat transaksi secara permanen
+- **Modal konfirmasi dua langkah**: user harus mengetik kata `RESET` sebelum tombol hapus aktif, mencegah penghapusan data tidak sengaja
+- **Reset saldo otomatis**: setelah reset, `saldo_saat_ini` semua akun (SumberTransaksi) dikembalikan ke `saldo_awal` masing-masing
+- **Danger Zone** — section khusus dengan border merah & badge "Tidak dapat dibatalkan" untuk visibilitas risiko
+- **Multilanguage penuh**: semua teks UI (narasi, modal, konfirmasi, pesan sukses/error) tersedia dalam Bahasa Indonesia (`lang/id/settings.php`) dan English (`lang/en/settings.php`)
+- **Route** `DELETE /settings/reset-data` (name: `settings.reset-data`) dengan perlindungan CSRF dan validasi confirm_word sisi server
+- Hard-delete (force delete) transaksi termasuk baris yang sudah soft-deleted, dikemas dalam `DB::transaction` untuk atomicity
+
+---
+
+## [1.1.0] — 2026-05-24
+
+### Added
+
+#### Fitur Multi-Bahasa (Internationalization / i18n)
+- **LocaleMiddleware** baru (`app/Http/Middleware/LocaleMiddleware.php`) — otomatis menerapkan locale sesuai preferensi user dari database, fallback ke session, lalu config default
+- **File translasi lengkap** untuk dua bahasa:
+  - `lang/id/` — Bahasa Indonesia (bahasa utama)
+  - `lang/en/` — English (US)
+  - Mencakup 18 file per bahasa: `messages`, `navigation`, `auth`, `dashboard`, `transaksi`, `laporan`, `anggaran`, `tabungan`, `hutang`, `recurring`, `kategori`, `sumber`, `settings`, `household`, `notifikasi`, `onboarding`, `privacy`, `import`, `tags`, `profile`, `superadmin`
+- **Dropdown bahasa di Pengaturan** — user dapat memilih antara 🇮🇩 Bahasa Indonesia dan 🇺🇸 English (US)
+- **Arsitektur siap untuk bahasa tambahan** — tambahkan folder `lang/{kode}/` dan daftar kode di `SUPPORTED_LOCALES`
+
+### Changed
+- **Semua 67 Blade template** diupdate menggunakan `__()` helper — nav/sidebar, auth, dashboard, transaksi, laporan, anggaran, tabungan, hutang-piutang, recurring, kategori, sumber dana, tags, notifikasi, household, settings, profile, onboarding, privacy, import-bank, superadmin, welcome
+- **`<html lang="">` dinamis** di semua layout berdasarkan `app()->getLocale()`
+- **SettingController::updatePreferences()** — locale langsung diterapkan (`app()->setLocale()`) dan disimpan ke session saat user simpan preferensi
+- **LocaleMiddleware** didaftarkan sebagai web middleware global di `bootstrap/app.php`
+- Versi aplikasi diupdate ke `1.1.0`
+
+---
+
+## [1.0.1] — 2026-05-23
+
+### Fixed
+- Fitur "Ingat Saya" di halaman login tidak terasa efeknya — disebabkan `SESSION_EXPIRE_ON_CLOSE` bernilai `false` sehingga session cookie memiliki expiry eksplisit 2 jam dan tetap aktif meski browser ditutup. Diperbaiki dengan menambahkan `SESSION_EXPIRE_ON_CLOSE=true` di `.env` agar session cookie dihapus saat browser ditutup, sehingga "Ingat Saya" benar-benar membedakan pengalaman login (tanpa centang → logout saat browser ditutup; dengan centang → tetap login via remember-me cookie 5 tahun).
 
 ---
 
@@ -118,5 +170,6 @@ Setiap versi baru menggunakan format:
 ### Security    — perbaikan keamanan
 ```
 
-[Unreleased]: https://github.com/username/finanku/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/username/finanku/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/username/finanku/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/username/finanku/releases/tag/v1.0.0

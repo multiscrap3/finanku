@@ -1,0 +1,14 @@
+---
+deployment:
+  tasks:
+    # Set permission folder yang dibutuhkan Laravel
+    - chmod -R 755 storage
+    - chmod -R 755 bootstrap/cache
+
+    # Cache config, route, view (tanpa perlu composer install)
+    - php artisan config:cache
+    - php artisan route:cache
+    - php artisan view:cache
+
+    # Jalankan migrasi database
+    - php artisan migrate --force --no-interaction

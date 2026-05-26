@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan')
-@section('page-title', 'Laporan Keuangan')
+@section('title', __('laporan.title'))
+@section('page-title', __('laporan.title'))
 
 @section('content')
 <div class="row g-4">
@@ -10,10 +10,10 @@
     <div class="col-12">
         <div class="row g-3">
             @foreach([
-                ['route' => 'laporan.harian',   'label' => 'Harian',   'icon' => 'bi-calendar-day',   'color' => '#3b82f6'],
-                ['route' => 'laporan.mingguan',  'label' => 'Mingguan', 'icon' => 'bi-calendar-week',  'color' => '#6366f1'],
-                ['route' => 'laporan.bulanan',   'label' => 'Bulanan',  'icon' => 'bi-bar-chart-line',  'color' => '#8b5cf6'],
-                ['route' => 'laporan.tahunan',   'label' => 'Tahunan',  'icon' => 'bi-pie-chart',       'color' => '#ec4899'],
+                ['route' => 'laporan.harian',   'label' => __('laporan.daily'),   'icon' => 'bi-calendar-day',   'color' => '#3b82f6'],
+                ['route' => 'laporan.mingguan',  'label' => __('laporan.weekly'), 'icon' => 'bi-calendar-week',  'color' => '#6366f1'],
+                ['route' => 'laporan.bulanan',   'label' => __('laporan.monthly'), 'icon' => 'bi-bar-chart-line', 'color' => '#8b5cf6'],
+                ['route' => 'laporan.tahunan',   'label' => __('laporan.yearly'),  'icon' => 'bi-pie-chart',      'color' => '#ec4899'],
             ] as $item)
                 <div class="col-6 col-md-3">
                     <a href="{{ route($item['route']) }}"
@@ -37,12 +37,12 @@
         <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h6 class="fw-semibold mb-0">Laporan Cepat — Bulan Ini</h6>
-                    <a href="{{ route('laporan.bulanan') }}" class="small text-primary text-decoration-none">Lihat detail</a>
+                    <h6 class="fw-semibold mb-0">{{ __('laporan.summary') }}</h6>
+                    <a href="{{ route('laporan.bulanan') }}" class="small text-primary text-decoration-none">{{ __('laporan.detail') }}</a>
                 </div>
-                <p class="text-muted small mb-3">Pilih periode laporan di atas untuk melihat detail transaksi, grafik, dan perbandingan keuangan.</p>
-                <button type="button" class="btn btn-outline-secondary btn-sm disabled" tabindex="-1" title="Tersedia di laporan periode">
-                    <i class="bi bi-download me-1"></i>Export Excel
+                <p class="text-muted small mb-3">{{ __('laporan.no_data') }}</p>
+                <button type="button" class="btn btn-outline-secondary btn-sm disabled" tabindex="-1" title="{{ __('laporan.export') }}">
+                    <i class="bi bi-download me-1"></i>{{ __('laporan.export_excel') }}
                 </button>
             </div>
         </div>

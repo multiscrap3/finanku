@@ -1,5 +1,5 @@
-<?php $__env->startSection('title', 'Transaksi'); ?>
-<?php $__env->startSection('page-title', 'Transaksi'); ?>
+<?php $__env->startSection('title', __('transaksi.title')); ?>
+<?php $__env->startSection('page-title', __('transaksi.title')); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="row g-4 mt-1">
@@ -10,7 +10,7 @@
             <div class="col-12 col-md-4">
                 <div class="card border-0 shadow-sm" style="border-radius:.75rem;border-left:4px solid #10b981!important;">
                     <div class="card-body py-3 px-4">
-                        <div class="small text-success fw-medium mb-1">Total Pemasukan</div>
+                        <div class="small text-success fw-medium mb-1"><?php echo e(__('transaksi.total_income')); ?></div>
                         <h5 class="fw-bold text-success mb-0">Rp <?php echo e(number_format($summary['total_pemasukan'] ?? 0, 0, ',', '.')); ?></h5>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
             <div class="col-12 col-md-4">
                 <div class="card border-0 shadow-sm" style="border-radius:.75rem;border-left:4px solid #ef4444!important;">
                     <div class="card-body py-3 px-4">
-                        <div class="small text-danger fw-medium mb-1">Total Pengeluaran</div>
+                        <div class="small text-danger fw-medium mb-1"><?php echo e(__('transaksi.total_expense')); ?></div>
                         <h5 class="fw-bold text-danger mb-0">Rp <?php echo e(number_format($summary['total_pengeluaran'] ?? 0, 0, ',', '.')); ?></h5>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
             <div class="col-12 col-md-4">
                 <div class="card border-0 shadow-sm" style="border-radius:.75rem;border-left:4px solid #3b82f6!important;">
                     <div class="card-body py-3 px-4">
-                        <div class="small text-primary fw-medium mb-1">Saldo Bersih</div>
+                        <div class="small text-primary fw-medium mb-1"><?php echo e(__('transaksi.net_balance')); ?></div>
                         <h5 class="fw-bold text-primary mb-0">Rp <?php echo e(number_format(($summary['total_pemasukan'] ?? 0) - ($summary['total_pengeluaran'] ?? 0), 0, ',', '.')); ?></h5>
                     </div>
                 </div>
@@ -38,18 +38,21 @@
     <div class="col-12">
         <div class="d-flex flex-wrap align-items-center gap-2">
             <a href="<?php echo e(route('transaksi.create')); ?>" class="btn btn-primary btn-sm">
-                <i class="bi bi-plus-lg me-1"></i> Tambah Transaksi
+                <i class="bi bi-plus-lg me-1"></i> <?php echo e(__('transaksi.add')); ?>
+
             </a>
             <button class="btn btn-outline-secondary btn-sm" type="button"
                     data-bs-toggle="collapse" data-bs-target="#filterPanel">
-                <i class="bi bi-funnel me-1"></i> Filter
+                <i class="bi bi-funnel me-1"></i> <?php echo e(__('transaksi.filter')); ?>
+
                 <?php if(request()->hasAny(['jenis', 'kategori_id', 'tanggal_dari', 'tanggal_sampai', 'search'])): ?>
-                    <span class="badge bg-primary ms-1">Aktif</span>
+                    <span class="badge bg-primary ms-1"><?php echo e(__('transaksi.filter_active')); ?></span>
                 <?php endif; ?>
             </button>
             <?php if(request()->hasAny(['jenis', 'kategori_id', 'tanggal_dari', 'tanggal_sampai', 'search'])): ?>
                 <a href="<?php echo e(route('transaksi.index')); ?>" class="btn btn-link btn-sm text-danger p-0">
-                    <i class="bi bi-x-circle me-1"></i>Reset filter
+                    <i class="bi bi-x-circle me-1"></i><?php echo e(__('transaksi.reset_filter')); ?>
+
                 </a>
             <?php endif; ?>
         </div>
@@ -61,16 +64,16 @@
                 <div class="card-body p-4">
                     <form method="GET" class="row g-3">
                         <div class="col-12 col-md-4 col-lg-2">
-                            <label class="form-label small fw-medium">Jenis</label>
+                            <label class="form-label small fw-medium"><?php echo e(__('transaksi.filter_type')); ?></label>
                             <select name="jenis" class="form-select form-select-sm">
-                                <option value="">Semua</option>
-                                <option value="pemasukan"  <?php echo e(request('jenis') === 'pemasukan'  ? 'selected' : ''); ?>>Pemasukan</option>
-                                <option value="pengeluaran"<?php echo e(request('jenis') === 'pengeluaran'? 'selected' : ''); ?>>Pengeluaran</option>
-                                <option value="transfer"   <?php echo e(request('jenis') === 'transfer'   ? 'selected' : ''); ?>>Transfer</option>
+                                <option value=""><?php echo e(__('transaksi.all')); ?></option>
+                                <option value="pemasukan"  <?php echo e(request('jenis') === 'pemasukan'  ? 'selected' : ''); ?>><?php echo e(__('transaksi.income')); ?></option>
+                                <option value="pengeluaran"<?php echo e(request('jenis') === 'pengeluaran'? 'selected' : ''); ?>><?php echo e(__('transaksi.expense')); ?></option>
+                                <option value="transfer"   <?php echo e(request('jenis') === 'transfer'   ? 'selected' : ''); ?>><?php echo e(__('transaksi.transfer')); ?></option>
                             </select>
                         </div>
                         <div class="col-12 col-md-4 col-lg-2">
-                            <label class="form-label small fw-medium">Kategori</label>
+                            <label class="form-label small fw-medium"><?php echo e(__('transaksi.filter_category')); ?></label>
                             <select name="kategori_id" class="form-select form-select-sm">
                                 <option value="">Semua</option>
                                 <?php $__currentLoopData = $kategori; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -79,22 +82,22 @@
                             </select>
                         </div>
                         <div class="col-12 col-md-4 col-lg-3">
-                            <label class="form-label small fw-medium">Cari</label>
+                            <label class="form-label small fw-medium"><?php echo e(__('transaksi.filter_search')); ?></label>
                             <input type="text" name="search" value="<?php echo e(request('search')); ?>"
-                                   class="form-control form-control-sm" placeholder="Keterangan...">
+                                   class="form-control form-control-sm" placeholder="<?php echo e(__('transaksi.filter_search_ph')); ?>">
                         </div>
                         <div class="col-6 col-lg-2">
-                            <label class="form-label small fw-medium">Dari Tanggal</label>
+                            <label class="form-label small fw-medium"><?php echo e(__('transaksi.filter_from')); ?></label>
                             <input type="date" name="tanggal_dari" value="<?php echo e(request('tanggal_dari')); ?>"
                                    class="form-control form-control-sm">
                         </div>
                         <div class="col-6 col-lg-2">
-                            <label class="form-label small fw-medium">Sampai Tanggal</label>
+                            <label class="form-label small fw-medium"><?php echo e(__('transaksi.filter_to')); ?></label>
                             <input type="date" name="tanggal_sampai" value="<?php echo e(request('tanggal_sampai')); ?>"
                                    class="form-control form-control-sm">
                         </div>
                         <div class="col-12 col-lg-1 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary btn-sm w-100">Terapkan</button>
+                            <button type="submit" class="btn btn-primary btn-sm w-100"><?php echo e(__('transaksi.apply')); ?></button>
                         </div>
                     </form>
                 </div>
@@ -107,7 +110,7 @@
         <div class="col-12">
             <div class="alert alert-warning">
                 <i class="bi bi-exclamation-triangle me-2"></i>
-                <strong>Peringatan:</strong> <?php echo e(session('warning_duplicate.message')); ?>
+                <strong><?php echo e(__('transaksi.duplicate_warning')); ?></strong> <?php echo e(session('warning_duplicate.message')); ?>
 
             </div>
         </div>
@@ -134,7 +137,7 @@
                         </div>
                         <div class="flex-grow-1 overflow-hidden">
                             <div class="small fw-medium text-dark text-truncate">
-                                <?php echo e($t->keterangan ?: 'Tanpa keterangan'); ?>
+                                <?php echo e($t->keterangan ?: __('transaksi.no_description')); ?>
 
                             </div>
                             <div class="text-muted d-flex align-items-center gap-1" style="font-size:.72rem;">
@@ -154,9 +157,10 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <div class="py-5 text-center">
                         <i class="bi bi-receipt fs-1 d-block mb-2 text-muted opacity-25"></i>
-                        <p class="text-muted small mb-2">Belum ada transaksi.</p>
+                        <p class="text-muted small mb-2"><?php echo e(__('transaksi.no_transactions')); ?></p>
                         <a href="<?php echo e(route('transaksi.create')); ?>" class="small text-primary fw-medium text-decoration-none">
-                            + Tambah transaksi pertama
+                            <?php echo e(__('transaksi.add_first')); ?>
+
                         </a>
                     </div>
                 <?php endif; ?>

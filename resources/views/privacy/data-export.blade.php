@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Privasi & Data Saya')
-@section('page-title', 'Privasi & Data Saya')
+@section('title', __('privacy.data_export'))
+@section('page-title', __('privacy.data_export'))
 
 @section('content')
 <div class="row g-4 justify-content-center">
@@ -142,14 +142,14 @@
     <div class="card border-0 shadow-sm mb-4" style="border-radius:.75rem; border-left: 4px solid #1a73e8 !important;">
         <div class="card-body p-4">
             <h6 class="fw-semibold mb-2">
-                <i class="bi bi-file-earmark-arrow-down text-primary me-2"></i>Unduh Data Pribadi Saya
+                <i class="bi bi-file-earmark-arrow-down text-primary me-2"></i>{{ __('privacy.data_download') }}
             </h6>
             <p class="small text-muted mb-3">
                 Dapatkan salinan semua data pribadi Anda dalam format JSON, termasuk profil, transaksi,
                 pengaturan, dan riwayat persetujuan.
             </p>
             <a href="{{ route('privacy.download') }}" class="btn btn-primary btn-sm">
-                <i class="bi bi-download me-2"></i>Unduh Data (JSON)
+                <i class="bi bi-download me-2"></i>{{ __('privacy.download_json') }}
             </a>
         </div>
     </div>
@@ -158,7 +158,7 @@
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-body p-4">
             <h6 class="fw-semibold mb-2">
-                <i class="bi bi-envelope text-secondary me-2"></i>Hubungi Kami
+                <i class="bi bi-envelope text-secondary me-2"></i>{{ __('privacy.contact') }}
             </h6>
             <p class="small text-muted mb-1">
                 Pertanyaan tentang data atau permintaan hak subjek data:

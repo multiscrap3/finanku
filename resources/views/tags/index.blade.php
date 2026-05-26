@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Tags')
-@section('page-title', 'Manajemen Tags')
+@section('title', __('tags.title'))
+@section('page-title', __('tags.title'))
 
 @section('content')
 <div class="row g-4 justify-content-center">
@@ -10,11 +10,11 @@
     {{-- Form tambah --}}
     <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
         <div class="card-body p-4">
-            <h6 class="fw-semibold mb-3">Tambah Tag</h6>
+            <h6 class="fw-semibold mb-3">{{ __('tags.add') }}</h6>
             <form method="POST" action="{{ route('tags.store') }}" class="d-flex align-items-end gap-2">
                 @csrf
                 <div class="flex-grow-1">
-                    <input type="text" name="nama" value="{{ old('nama') }}" required placeholder="Nama tag"
+                    <input type="text" name="nama" value="{{ old('nama') }}" required placeholder="{{ __('tags.name_ph') }}"
                            maxlength="50"
                            class="form-control form-control-sm @error('nama') is-invalid @enderror">
                 </div>
@@ -23,7 +23,7 @@
                     <input type="color" name="warna" value="{{ old('warna', '#6B7280') }}"
                            class="form-control form-control-color form-control-sm" style="width:40px;">
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">Tambah</button>
+                <button type="submit" class="btn btn-primary btn-sm">{{ __('tags.save') }}</button>
             </form>
             @error('nama')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
         </div>
@@ -46,11 +46,11 @@
                         <div class="d-flex gap-2 flex-shrink-0">
                             <button type="button" class="small text-secondary text-decoration-none btn btn-link p-0"
                                     style="font-size:.78rem;"
-                                    onclick="toggleTagEdit({{ $tag->id }})">Edit</button>
+                                    onclick="toggleTagEdit({{ $tag->id }})">{{ __('messages.edit') }}</button>
                             <form method="POST" action="{{ route('tags.destroy', $tag) }}"
-                                  onsubmit="return confirm('Hapus tag #{{ $tag->nama }}?')" class="d-inline">
+                                  onsubmit="return confirm('{{ __('tags.delete_confirm') }}')" class="d-inline">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">Hapus</button>
+                                <button type="submit" class="btn btn-link btn-sm text-danger p-0" style="font-size:.78rem;">{{ __('messages.delete') }}</button>
                             </form>
                         </div>
                     </div>
@@ -63,16 +63,16 @@
                                    class="form-control form-control-sm flex-grow-1">
                             <input type="color" name="warna" value="{{ $tag->warna }}"
                                    class="form-control form-control-color form-control-sm flex-shrink-0" style="width:36px;">
-                            <button type="submit" class="btn btn-link btn-sm text-primary p-0">Simpan</button>
+                            <button type="submit" class="btn btn-link btn-sm text-primary p-0">{{ __('tags.save') }}</button>
                             <button type="button" class="btn btn-link btn-sm text-muted p-0"
-                                    onclick="toggleTagEdit({{ $tag->id }})">Batal</button>
+                                    onclick="toggleTagEdit({{ $tag->id }})">{{ __('tags.cancel') }}</button>
                         </form>
                     </div>
                 </div>
             @empty
                 <div class="py-5 text-center">
-                    <p class="text-muted small mb-1">Belum ada tags.</p>
-                    <p class="text-muted" style="font-size:.72rem;">Tags digunakan untuk mengelompokkan transaksi secara fleksibel.</p>
+                    <p class="text-muted small mb-1">{{ __('tags.no_tags') }}</p>
+                    <p class="text-muted" style="font-size:.72rem;">{{ __('tags.no_tags') }}</p>
                 </div>
             @endforelse
         </div>

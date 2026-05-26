@@ -1,7 +1,7 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Edit Anggaran')
-@section('page-title', 'Edit Anggaran')
+@section('title', __('anggaran.edit'))
+@section('page-title', __('anggaran.edit'))
 
 @section('content')
 <div class="row justify-content-center">
@@ -20,7 +20,7 @@
                 @endif
 
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Kategori</label>
+                    <label class="form-label fw-medium">{{ __('anggaran.category') }}</label>
                     <select name="kategori_id" class="form-select">
                         @foreach($kategori as $kat)
                             <option value="{{ $kat->id }}" {{ old('kategori_id', $anggaran->kategori_id) == $kat->id ? 'selected' : '' }}>{{ $kat->nama }}</option>
@@ -30,7 +30,7 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-6">
-                        <label class="form-label fw-medium">Bulan</label>
+                        <label class="form-label fw-medium">{{ __('laporan.month') }}</label>
                         <select name="bulan" class="form-select">
                             @foreach(range(1, 12) as $b)
                                 <option value="{{ $b }}" {{ old('bulan', $anggaran->bulan) == $b ? 'selected' : '' }}>
@@ -40,7 +40,7 @@
                         </select>
                     </div>
                     <div class="col-6">
-                        <label class="form-label fw-medium">Tahun</label>
+                        <label class="form-label fw-medium">{{ __('laporan.year') }}</label>
                         <select name="tahun" class="form-select">
                             @foreach(range(now()->year + 1, now()->year - 2) as $y)
                                 <option value="{{ $y }}" {{ old('tahun', $anggaran->tahun) == $y ? 'selected' : '' }}>{{ $y }}</option>
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label fw-medium">Batas Anggaran</label>
+                    <label class="form-label fw-medium">{{ __('anggaran.amount') }}</label>
                     <div class="input-group">
                         <span class="input-group-text">Rp</span>
                         <input type="number" name="jumlah" value="{{ old('jumlah', $anggaran->jumlah) }}" min="0" step="1000"
@@ -60,9 +60,9 @@
                 </div>
 
                 <div class="d-flex gap-2 pt-2">
-                    <button type="submit" class="btn btn-primary flex-fill fw-medium">Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-primary flex-fill fw-medium">{{ __('anggaran.save') }}</button>
                     <a href="{{ route('anggaran.index', ['bulan' => $anggaran->bulan, 'tahun' => $anggaran->tahun]) }}"
-                       class="btn btn-outline-secondary flex-fill">Batal</a>
+                       class="btn btn-outline-secondary flex-fill">{{ __('anggaran.cancel') }}</a>
                 </div>
             </form>
         </div>

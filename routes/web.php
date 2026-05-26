@@ -125,6 +125,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/password', [\App\Http\Controllers\SettingController::class, 'updatePassword'])->name('password.update');
         Route::put('/household', [\App\Http\Controllers\SettingController::class, 'updateHousehold'])->name('household.update');
         Route::put('/preferences', [\App\Http\Controllers\SettingController::class, 'updatePreferences'])->name('preferences.update');
+        Route::delete('/reset-data', [\App\Http\Controllers\SettingController::class, 'resetTransaksiData'])->name('reset-data');
     });
     
     // Notifikasi

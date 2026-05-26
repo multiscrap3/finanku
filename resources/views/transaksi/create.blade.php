@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Transaksi')
-@section('page-title', 'Tambah Transaksi')
+@section('title', __('transaksi.add'))
+@section('page-title', __('transaksi.add'))
 
 @push('styles')
 <style>
@@ -100,16 +100,16 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                         <i class="bi bi-camera-fill text-primary fs-5"></i>
                     </div>
                     <div class="flex-grow-1 min-w-0">
-                        <div class="fw-semibold" style="font-size:.875rem;">Scan Struk</div>
-                        <div class="text-muted" style="font-size:.75rem;">Foto struk untuk isi otomatis &amp; simpan bukti</div>
+                        <div class="fw-semibold" style="font-size:.875rem;">{{ __('transaksi.scan_receipt') }}</div>
+                        <div class="text-muted" style="font-size:.75rem;">{{ __('transaksi.scan_subtitle') }}</div>
                     </div>
                     <label class="btn btn-primary btn-sm flex-shrink-0 mb-0" id="ocrLabel" style="cursor:pointer;">
                         <i class="bi bi-upload me-1"></i>
-                        <span id="ocrBtnText">Pilih Foto</span>
+                        <span id="ocrBtnText">{{ __('transaksi.choose_photo') }}</span>
                         <input type="file" id="ocrFileInput" accept="image/jpeg,image/png,image/webp" class="d-none">
                     </label>
                     <span id="ocrDoneIcon" class="d-none badge bg-success-subtle text-success fw-semibold flex-shrink-0" style="font-size:.75rem;">
-                        <i class="bi bi-check-circle-fill me-1"></i>Selesai
+                        <i class="bi bi-check-circle-fill me-1"></i>{{ __('transaksi.done') }}
                     </span>
                 </div>
 
@@ -122,25 +122,25 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                         <div class="flex-grow-1">
                             <div id="ocrAnalyzing" class="d-none text-primary small">
                                 <div class="spinner-border spinner-border-sm me-1" role="status"></div>
-                                Menganalisis dengan AI...
+                                {{ __('transaksi.analyzing') }}
                             </div>
                             <div id="ocrResultText" class="d-none small">
-                                <div class="fw-semibold mb-1">Data terdeteksi:</div>
+                                <div class="fw-semibold mb-1">{{ __('transaksi.detected_data') }}</div>
                                 <div id="ocrDetectedJumlah" class="d-none text-success">
-                                    <i class="bi bi-check-circle me-1"></i>Jumlah: Rp <span id="ocrJumlahVal"></span>
+                                    <i class="bi bi-check-circle me-1"></i>{{ __('transaksi.detected_amount') }} <span id="ocrJumlahVal"></span>
                                 </div>
                                 <div id="ocrDetectedToko" class="d-none text-success">
-                                    <i class="bi bi-check-circle me-1"></i>Toko: <span id="ocrTokoVal"></span>
+                                    <i class="bi bi-check-circle me-1"></i>{{ __('transaksi.detected_store') }} <span id="ocrTokoVal"></span>
                                 </div>
                                 <div id="ocrDetectedItems" class="d-none text-success">
                                     <i class="bi bi-check-circle me-1"></i><span id="ocrItemCount"></span> item —
-                                    <button type="button" id="toggleItemBtn" class="btn btn-link btn-sm p-0 text-primary fw-medium">Lihat &amp; Edit</button>
+                                    <button type="button" id="toggleItemBtn" class="btn btn-link btn-sm p-0 text-primary fw-medium">{{ __('transaksi.see_edit_items') }}</button>
                                 </div>
                                 <div id="ocrNoItems" class="d-none text-warning">
-                                    <i class="bi bi-exclamation-circle me-1"></i>Item tidak terdeteksi
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ __('transaksi.no_items_detected') }}
                                 </div>
                                 <div class="text-muted mt-1" style="font-size:.72rem;">
-                                    <i class="bi bi-image me-1"></i>Foto disimpan sebagai bukti transaksi
+                                    <i class="bi bi-image me-1"></i>{{ __('transaksi.photo_saved') }}
                                 </div>
                             </div>
                         </div>
@@ -154,14 +154,14 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
             <div class="card-body p-4">
 
                 {{-- Jenis Transaksi --}}
-                <div class="section-label">Jenis Transaksi</div>
+                <div class="section-label">{{ __('transaksi.transaction_type') }}</div>
                 <div class="row g-2 mb-4">
                     <div class="col-4">
                         <input type="radio" class="btn-check" name="jenis" id="jenisPengeluaran" value="pengeluaran"
                                {{ old('jenis', request('jenis', 'pengeluaran')) === 'pengeluaran' ? 'checked' : '' }}>
                         <label class="jenis-card card-pengeluaran d-block text-center py-3 px-2" for="jenisPengeluaran">
                             <i class="bi bi-arrow-down-circle-fill text-danger d-block mb-1" style="font-size:1.6rem;"></i>
-                            <span class="fw-semibold text-danger d-block" style="font-size:.8rem;">Pengeluaran</span>
+                            <span class="fw-semibold text-danger d-block" style="font-size:.8rem;">{{ __('transaksi.expense') }}</span>
                         </label>
                     </div>
                     <div class="col-4">
@@ -169,7 +169,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                                {{ old('jenis', request('jenis', 'pengeluaran')) === 'pemasukan' ? 'checked' : '' }}>
                         <label class="jenis-card card-pemasukan d-block text-center py-3 px-2" for="jenisPemasukan">
                             <i class="bi bi-arrow-up-circle-fill text-success d-block mb-1" style="font-size:1.6rem;"></i>
-                            <span class="fw-semibold text-success d-block" style="font-size:.8rem;">Pemasukan</span>
+                            <span class="fw-semibold text-success d-block" style="font-size:.8rem;">{{ __('transaksi.income') }}</span>
                         </label>
                     </div>
                     <div class="col-4">
@@ -177,14 +177,14 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                                {{ old('jenis', request('jenis', 'pengeluaran')) === 'transfer' ? 'checked' : '' }}>
                         <label class="jenis-card card-transfer d-block text-center py-3 px-2" for="jenisTransfer">
                             <i class="bi bi-arrow-left-right text-primary d-block mb-1" style="font-size:1.6rem;"></i>
-                            <span class="fw-semibold text-primary d-block" style="font-size:.8rem;">Transfer</span>
+                            <span class="fw-semibold text-primary d-block" style="font-size:.8rem;">{{ __('transaksi.transfer') }}</span>
                         </label>
                     </div>
                 </div>
                 @error('jenis')<div class="text-danger small mt-1 mb-3">{{ $message }}</div>@enderror
 
                 {{-- Jumlah --}}
-                <div class="section-label">Jumlah</div>
+                <div class="section-label">{{ __('transaksi.amount') }}</div>
                 <div class="text-center mb-4">
                     <div class="d-flex align-items-baseline justify-content-center gap-2">
                         <span class="text-muted fw-bold" style="font-size:1.4rem;">Rp</span>
@@ -199,7 +199,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                 </div>
 
                 {{-- Tanggal --}}
-                <div class="section-label">Tanggal</div>
+                <div class="section-label">{{ __('transaksi.date') }}</div>
                 <input type="date" name="tanggal" id="tanggalInput"
                        value="{{ old('tanggal', now()->toDateString()) }}" required
                        class="form-control @error('tanggal') is-invalid @enderror">
@@ -218,18 +218,18 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
         {{-- Saldo Warning --}}
         <div id="saldoWarning" class="alert alert-danger alert-dismissible d-none mb-0" role="alert">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>Saldo tidak cukup!</strong>
-            Tersedia: <strong id="warnSaldo"></strong>, dibutuhkan: <strong id="warnJumlah"></strong>.
+            <strong>{{ __('transaksi.insufficient_balance') }}</strong>
+            {{ __('transaksi.available') }} <strong id="warnSaldo"></strong>, {{ __('transaksi.needed') }} <strong id="warnJumlah"></strong>.
         </div>
 
         {{-- Card: Detail Transaksi --}}
         <div class="card border-0 shadow-sm" style="border-radius:.75rem;">
             <div class="card-body p-4">
-                <div class="section-label">Detail Transaksi</div>
+                <div class="section-label">{{ __('transaksi.detail') }}</div>
 
                 {{-- Keterangan --}}
                 <div class="mb-3 position-relative">
-                    <label class="form-label fw-medium">Keterangan</label>
+                    <label class="form-label fw-medium">{{ __('transaksi.description') }}</label>
                     <div class="input-group">
                         <span class="input-group-text border-end-0">
                             <i class="bi bi-chat-left-text text-muted"></i>
@@ -237,7 +237,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                         <input type="text" name="keterangan" id="keteranganInput"
                                value="{{ old('keterangan') }}"
                                class="form-control border-start-0 ps-0"
-                               placeholder="Nama toko, deskripsi..." autocomplete="off"
+                               placeholder="{{ __('transaksi.description_ph') }}" autocomplete="off"
                                style="border-left:none;">
                     </div>
                     <div id="suggestDropdown"
@@ -250,12 +250,12 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                 <div class="row g-3 mb-3">
                     <div class="col-sm-6">
                         <label class="form-label fw-medium">
-                            Kategori <span class="text-danger">*</span>
-                            <span id="ocrKategoriLabel" class="d-none badge bg-success-subtle text-success fw-normal ms-1" style="font-size:.7rem;">dari OCR</span>
+                            {{ __('transaksi.category') }} <span class="text-danger">*</span>
+                            <span id="ocrKategoriLabel" class="d-none badge bg-success-subtle text-success fw-normal ms-1" style="font-size:.7rem;">{{ __('transaksi.from_ocr') }}</span>
                         </label>
                         <select name="kategori_id" id="kategoriSelect" required
                                 class="form-select @error('kategori_id') is-invalid @enderror">
-                            <option value="">Pilih kategori...</option>
+                            <option value="">{{ __('transaksi.category_ph') }}</option>
                             @foreach($kategori as $kat)
                                 <option value="{{ $kat->id }}"
                                         data-jenis="{{ $kat->jenis }}"
@@ -275,11 +275,11 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                     </div>
                     <div class="col-sm-6">
                         <label class="form-label fw-medium">
-                            Sumber Dana <span class="text-danger">*</span>
+                            {{ __('transaksi.source') }} <span class="text-danger">*</span>
                         </label>
                         <select name="sumber_transaksi_id" id="sumberSelect" required
                                 class="form-select @error('sumber_transaksi_id') is-invalid @enderror">
-                            <option value="">Pilih sumber dana...</option>
+                            <option value="">{{ __('transaksi.source_ph') }}</option>
                             @foreach($sumberTransaksi as $s)
                                 <option value="{{ $s->id }}" {{ old('sumber_transaksi_id') == $s->id ? 'selected' : '' }}>
                                     {{ $s->nama }} — Rp {{ number_format($s->saldo_saat_ini, 0, ',', '.') }}
@@ -292,9 +292,9 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
 
                 {{-- Transfer ke --}}
                 <div class="mb-3 d-none" id="transferKeRow">
-                    <label class="form-label fw-medium">Transfer Ke <span class="text-danger">*</span></label>
+                    <label class="form-label fw-medium">{{ __('transaksi.transfer_to') }} <span class="text-danger">*</span></label>
                     <select name="transfer_ke_id" class="form-select">
-                        <option value="">Pilih rekening tujuan...</option>
+                        <option value="">{{ __('transaksi.transfer_to_ph') }}</option>
                         @foreach($sumberTransaksi as $s)
                             <option value="{{ $s->id }}" {{ old('transfer_ke_id') == $s->id ? 'selected' : '' }}>
                                 {{ $s->nama }}
@@ -306,7 +306,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                 {{-- Tags --}}
                 @if($tags->count())
                 <div class="mb-3">
-                    <label class="form-label fw-medium">Tags</label>
+                    <label class="form-label fw-medium">{{ __('transaksi.tags') }}</label>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach($tags as $tag)
                             <div class="tag-pill">
@@ -322,10 +322,10 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
 
                 {{-- Catatan --}}
                 <div class="mb-0">
-                    <label class="form-label fw-medium">Catatan</label>
+                    <label class="form-label fw-medium">{{ __('transaksi.notes') }}</label>
                     <textarea name="catatan" rows="2"
                               class="form-control"
-                              placeholder="Catatan tambahan (opsional)...">{{ old('catatan') }}</textarea>
+                              placeholder="{{ __('transaksi.notes_ph') }}">{{ old('catatan') }}</textarea>
                 </div>
             </div>
         </div>
@@ -341,9 +341,9 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                         <i class="bi bi-receipt text-muted"></i>
                     </div>
                     <div>
-                        <div class="fw-semibold" style="font-size:.875rem;">Detail Item</div>
+                        <div class="fw-semibold" style="font-size:.875rem;">{{ __('transaksi.item_detail') }}</div>
                         <div class="text-muted" style="font-size:.72rem;">
-                            <span id="itemOptLabel">Opsional — isi manual atau dari OCR</span>
+                            <span id="itemOptLabel">{{ __('transaksi.item_optional') }}</span>
                             <span id="itemCountBadge" class="d-none badge bg-primary ms-1" style="font-size:.7rem;"></span>
                         </div>
                     </div>
@@ -355,17 +355,17 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                 <div class="p-3">
                     <div id="itemEmptyState" class="text-center py-3 text-muted small">
                         <i class="bi bi-inbox d-block mb-1 fs-4"></i>
-                        Belum ada item — klik tombol di bawah untuk menambahkan
+                        {{ __('transaksi.no_items') }}
                     </div>
                     <div id="itemTableWrap" class="d-none mb-3">
                         <div class="table-responsive">
                             <table class="table table-sm table-bordered mb-0" style="font-size:.8rem;">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Nama Item</th>
-                                        <th class="text-center" style="width:60px;">Qty</th>
-                                        <th class="text-end" style="width:115px;">Harga</th>
-                                        <th class="text-end" style="width:115px;">Subtotal</th>
+                                        <th>{{ __('transaksi.item_name') }}</th>
+                                        <th class="text-center" style="width:60px;">{{ __('transaksi.qty') }}</th>
+                                        <th class="text-end" style="width:115px;">{{ __('transaksi.price') }}</th>
+                                        <th class="text-end" style="width:115px;">{{ __('transaksi.subtotal') }}</th>
                                         <th style="width:36px;"></th>
                                     </tr>
                                 </thead>
@@ -383,7 +383,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
                     <button type="button" id="addItemBtn"
                             class="btn btn-light w-100 border border-2"
                             style="border-style:dashed!important;font-size:.85rem;color:#6b7280;">
-                        <i class="bi bi-plus-circle me-1"></i>Tambah Item
+                        <i class="bi bi-plus-circle me-1"></i>{{ __('transaksi.add_item') }}
                     </button>
                 </div>
             </div>
@@ -393,10 +393,10 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
         <div class="d-flex align-items-center justify-content-between gap-2 pb-2">
             <a href="{{ route('transaksi.index') }}"
                class="btn btn-light fw-medium flex-shrink-0">
-                <i class="bi bi-arrow-left me-1"></i>Batal
+                <i class="bi bi-arrow-left me-1"></i>{{ __('transaksi.cancel') }}
             </a>
             <button type="submit" class="btn btn-primary fw-semibold flex-grow-1" id="submitBtn">
-                <i class="bi bi-check-lg me-2"></i>Simpan Transaksi
+                <i class="bi bi-check-lg me-2"></i>{{ __('transaksi.save') }}
             </button>
         </div>
 
@@ -526,7 +526,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
         tr.innerHTML = `
             <td class="p-1">
                 <input type="text" class="form-control form-control-sm"
-                       placeholder="Nama item..." value="${escHtml(item.nama_item || '')}">
+                       placeholder="{{ __('transaksi.item_name_ph') }}" value="${escHtml(item.nama_item || '')}">
             </td>
             <td class="p-1">
                 <input type="number" class="form-control form-control-sm text-center"
@@ -742,7 +742,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
         state.showItemDetail = !state.showItemDetail;
         itemPanel.classList.toggle('d-none', !state.showItemDetail);
         itemChevron.style.transform = state.showItemDetail ? 'rotate(180deg)' : '';
-        toggleItemBtn.textContent = state.showItemDetail ? 'Sembunyikan' : 'Lihat & Edit';
+        toggleItemBtn.textContent = state.showItemDetail ? '{{ __('transaksi.hide_items') }}' : '{{ __('transaksi.see_edit_items') }}';
     });
 
     ocrFileInput.addEventListener('change', function () {
@@ -763,7 +763,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
         fetch('/api/ocr/extract', { method: 'POST', body: fd })
             .then(r => r.json())
             .then(d => {
-                ocrBtnText.textContent = 'Ganti Foto';
+                ocrBtnText.textContent = '{{ __('transaksi.change_photo') }}';
                 ocrFileInput.disabled = false;
 
                 if (d.success && d.data) {
@@ -824,7 +824,7 @@ $sumberJson = $sumberTransaksi->map(fn($s) => [
             })
             .catch(() => {
                 ocrFileInput.disabled = false;
-                ocrBtnText.textContent = 'Pilih Foto';
+                ocrBtnText.textContent = '{{ __('transaksi.choose_photo') }}';
                 ocrAnalyzing.classList.add('d-none');
                 alert('Gagal menghubungi server OCR.');
             });

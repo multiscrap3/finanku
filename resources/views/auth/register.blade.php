@@ -1,18 +1,18 @@
 @extends('layouts.auth')
 
-@section('title', 'Daftar Akun')
+@section('title', __('auth.create_account'))
 
 @section('content')
     <div class="mb-4">
-        <h3 class="fw-bold text-dark mb-1">Buat Akun Baru</h3>
+        <h3 class="fw-bold text-dark mb-1">{{ __('auth.create_account') }}</h3>
         @if($invitation)
             <div class="alert alert-info py-2 small mt-2 mb-0">
                 <i class="bi bi-envelope-open me-1"></i>
-                Diundang ke <strong>{{ $invitation->household->nama }}</strong>
-                sebagai <strong>{{ $invitation->role }}</strong>.
+                {{ __('auth.invited_to') }} <strong>{{ $invitation->household->nama }}</strong>
+                {{ __('auth.as_role') }} <strong>{{ $invitation->role }}</strong>.
             </div>
         @else
-            <p class="text-muted mb-0">Daftar dan mulai kelola keuangan bersama keluarga.</p>
+            <p class="text-muted mb-0">{{ __('auth.register_subtitle') }}</p>
         @endif
     </div>
 
@@ -24,14 +24,14 @@
         @endif
 
         <div class="mb-3">
-            <label for="name" class="form-label fw-semibold text-dark">Nama Lengkap</label>
+            <label for="name" class="form-label fw-semibold text-dark">{{ __('auth.full_name') }}</label>
             <div class="input-group">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="bi bi-person text-muted"></i>
                 </span>
                 <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
                        class="form-control border-start-0 ps-0 @error('name') is-invalid @enderror"
-                       placeholder="Nama lengkap Anda"
+                       placeholder="{{ __('auth.full_name_placeholder') }}"
                        style="border-left:none;">
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="email" class="form-label fw-semibold text-dark">Alamat Email</label>
+            <label for="email" class="form-label fw-semibold text-dark">{{ __('auth.email_address') }}</label>
             <div class="input-group">
                 <span class="input-group-text bg-white border-end-0 {{ $invitation ? 'bg-light' : '' }}">
                     <i class="bi bi-envelope text-muted"></i>
@@ -49,7 +49,7 @@
                        value="{{ old('email', $invitation?->email) }}" required
                        {{ $invitation ? 'readonly' : '' }}
                        class="form-control border-start-0 ps-0 @error('email') is-invalid @enderror {{ $invitation ? 'bg-light' : '' }}"
-                       placeholder="email@contoh.com"
+                       placeholder="email@example.com"
                        style="border-left:none;">
                 @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -58,14 +58,14 @@
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label fw-semibold text-dark">Password</label>
+            <label for="password" class="form-label fw-semibold text-dark">{{ __('auth.password_label') }}</label>
             <div class="input-group">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="bi bi-lock text-muted"></i>
                 </span>
                 <input id="password" type="password" name="password" required
                        class="form-control border-start-0 border-end-0 ps-0 @error('password') is-invalid @enderror"
-                       placeholder="Minimal 8 karakter"
+                       placeholder="{{ __('auth.min_8_chars') }}"
                        style="border-left:none;">
                 <button type="button" class="btn btn-outline-secondary border-start-0"
                         onclick="togglePassword('password', this)"
@@ -79,14 +79,14 @@
         </div>
 
         <div class="mb-4">
-            <label for="password_confirmation" class="form-label fw-semibold text-dark">Konfirmasi Password</label>
+            <label for="password_confirmation" class="form-label fw-semibold text-dark">{{ __('auth.confirm_password') }}</label>
             <div class="input-group">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="bi bi-lock-fill text-muted"></i>
                 </span>
                 <input id="password_confirmation" type="password" name="password_confirmation" required
                        class="form-control border-start-0 border-end-0 ps-0"
-                       placeholder="Ulangi password"
+                       placeholder="{{ __('auth.repeat_password') }}"
                        style="border-left:none;">
                 <button type="button" class="btn btn-outline-secondary border-start-0"
                         onclick="togglePassword('password_confirmation', this)"
@@ -103,11 +103,11 @@
                        type="checkbox" name="consent" id="consent" value="1"
                        {{ old('consent') ? 'checked' : '' }} required>
                 <label class="form-check-label small" for="consent">
-                    Saya telah membaca dan menyetujui
-                    <a href="{{ route('privacy.policy') }}" target="_blank" class="fw-semibold">Kebijakan Privasi</a>
-                    dan
-                    <a href="{{ route('privacy.terms') }}" target="_blank" class="fw-semibold">Syarat &amp; Ketentuan</a>
-                    Finanku, serta menyetujui pengolahan data pribadi saya sesuai UU No. 27 Tahun 2022 tentang Perlindungan Data Pribadi.
+                    {{ __('auth.consent_text') }}
+                    <a href="{{ route('privacy.policy') }}" target="_blank" class="fw-semibold">{{ __('messages.privacy_policy') }}</a>
+                    {{ __('auth.consent_and') }}
+                    <a href="{{ route('privacy.terms') }}" target="_blank" class="fw-semibold">{{ __('messages.terms') }}</a>
+                    {{ __('auth.consent_pdp') }}
                 </label>
                 @error('consent')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -118,19 +118,19 @@
         <div class="d-grid mb-3">
             <button type="submit" class="btn btn-primary btn-lg fw-semibold">
                 <i class="bi bi-person-plus me-2"></i>
-                {{ $invitation ? 'Daftar &amp; Bergabung' : 'Buat Akun' }}
+                {{ $invitation ? __('auth.join_btn') : __('auth.register_btn') }}
             </button>
         </div>
     </form>
 
     <p class="text-center text-muted mb-0" style="font-size:.9rem;">
-        Sudah punya akun?
-        <a href="{{ route('login') }}" class="fw-semibold text-decoration-none" style="color:var(--primary);">Masuk di sini</a>
+        {{ __('auth.already_have_account') }}
+        <a href="{{ route('login') }}" class="fw-semibold text-decoration-none" style="color:var(--primary);">{{ __('auth.login_here') }}</a>
     </p>
 
     <p class="text-center mt-3 mb-0" style="font-size:.8rem;">
-        <a href="{{ route('privacy.policy') }}" class="text-muted text-decoration-none me-3">Kebijakan Privasi</a>
-        <a href="{{ route('privacy.terms') }}" class="text-muted text-decoration-none">Syarat &amp; Ketentuan</a>
+        <a href="{{ route('privacy.policy') }}" class="text-muted text-decoration-none me-3">{{ __('messages.privacy_policy') }}</a>
+        <a href="{{ route('privacy.terms') }}" class="text-muted text-decoration-none">{{ __('messages.terms') }}</a>
     </p>
 @endsection
 
