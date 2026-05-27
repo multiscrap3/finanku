@@ -15,13 +15,14 @@ class HutangPiutangPembayaran extends Model
     protected $fillable = [
         'hutang_piutang_id',
         'user_id',
+        'sumber_transaksi_id',
         'jumlah',
         'tanggal',
         'keterangan',
     ];
 
     protected $casts = [
-        'jumlah' => 'decimal:2',
+        'jumlah'  => 'decimal:2',
         'tanggal' => 'date',
     ];
 
@@ -33,5 +34,10 @@ class HutangPiutangPembayaran extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sumberTransaksi(): BelongsTo
+    {
+        return $this->belongsTo(SumberTransaksi::class);
     }
 }

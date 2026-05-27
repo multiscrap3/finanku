@@ -25,12 +25,16 @@ class HutangPiutang extends Model
         'tanggal_jatuh_tempo',
         'keterangan',
         'status',
+        'tipe_pembayaran',
+        'jumlah_cicilan',
+        'frekuensi_cicilan',
     ];
 
     protected $casts = [
-        'jumlah_total' => 'decimal:2',
+        'jumlah_total'    => 'decimal:2',
         'jumlah_terbayar' => 'decimal:2',
-        'tanggal_mulai' => 'date',
+        'jumlah_cicilan'  => 'decimal:2',
+        'tanggal_mulai'   => 'date',
         'tanggal_jatuh_tempo' => 'date',
     ];
 
@@ -58,8 +62,29 @@ class HutangPiutang extends Model
         if ($this->jumlah_total == 0) {
             return 0;
         }
-        
+
         return ($this->jumlah_terbayar / $this->jumlah_total) * 100;
+    }
+
+    /**
+     * Hitung jadwal cicilan berikutnya berdasarkan pembayaran terakhir
+     */
+    public function getJadwalCicilanBerikutnyaAttribute(): ?\Carbon\Carbon
+    {
+        if ($this->tipe_pembayaran !== 'cicilan' || $this->status === 'lunas') {
+            return null;
+        }
+
+        $pembayaranTerakhir = $this->pembayaran()->latest('tanggal')->first();
+        $base = $pembayaranTerakhir
+            ? \Carbon\Carbon::parse($pembayaranTerakhir->tanggal)
+            : \Carbon\Carbon::parse($this->tanggal_mulai);
+
+        return match ($this->frekuensi_cicilan) {
+            'mingguan' => $base->addWeek(),
+            'tahunan'  => $base->addYear(),
+            default    => $base->addMonth(),
+        };
     }
 
     /**
