@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - /opt/cpanel/ea-php84/root/usr/bin/php /usr/local/bin/composer install --no-dev --no-interaction --prefer-dist
+    - /opt/cpanel/ea-php84/root/usr/bin/php composer.phar install --no-dev --no-interaction --prefer-dist
     - chmod -R 755 storage bootstrap/cache
     - /opt/cpanel/ea-php84/root/usr/bin/php artisan config:cache
     - /opt/cpanel/ea-php84/root/usr/bin/php artisan route:cache
