@@ -35,8 +35,22 @@ MIGRATION.md
 VERSIONING.md
 PDP_CHECKLIST.md
 README_SETUP.md
+PROGRESS.md
 *_PROGRESS.md
 *_COMPLETE.md
 *_UPDATE.md
 *_FINAL.md
 *_LATEST.md
+
+# File development/testing tidak perlu di production
+phpunit.xml
+.styleci.yml
+.npmrc
+vite.config.js
+package.json
+package-lock.json
+CHANGELOG.md
+README.md
+
+# File berbahaya — expose struktur internal
+.env.example
