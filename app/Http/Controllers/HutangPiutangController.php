@@ -46,12 +46,15 @@ class HutangPiutangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jenis' => 'required|in:hutang,piutang',
-            'nama_pihak' => 'required|string|max:255',
-            'jumlah' => 'required|numeric|min:1',
-            'tanggal' => 'nullable|date',
-            'jatuh_tempo' => 'nullable|date|after:tanggal',
-            'keterangan' => 'nullable|string|max:500',
+            'jenis'             => 'required|in:hutang,piutang',
+            'nama_pihak'        => 'required|string|max:255',
+            'jumlah'            => 'required|numeric|min:1',
+            'tanggal'           => 'nullable|date',
+            'jatuh_tempo'       => 'nullable|date|after:tanggal',
+            'keterangan'        => 'nullable|string|max:500',
+            'tipe_pembayaran'   => 'required|in:sekali,cicilan',
+            'jumlah_cicilan'    => 'required_if:tipe_pembayaran,cicilan|nullable|numeric|min:1',
+            'frekuensi_cicilan' => 'required_if:tipe_pembayaran,cicilan|nullable|in:mingguan,bulanan,tahunan',
         ]);
 
         try {
