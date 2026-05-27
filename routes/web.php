@@ -100,7 +100,10 @@ Route::middleware(['auth'])->group(function () {
     // Hutang Piutang
     Route::resource('hutang-piutang', \App\Http\Controllers\HutangPiutangController::class);
     Route::post('/hutang-piutang/{hutangPiutang}/bayar', [\App\Http\Controllers\HutangPiutangController::class, 'bayar'])->name('hutang-piutang.bayar');
-    
+    Route::get('/pembayaran/{pembayaran}/edit', [\App\Http\Controllers\PembayaranController::class, 'edit'])->name('pembayaran.edit');
+    Route::put('/pembayaran/{pembayaran}', [\App\Http\Controllers\PembayaranController::class, 'update'])->name('pembayaran.update');
+    Route::delete('/pembayaran/{pembayaran}', [\App\Http\Controllers\PembayaranController::class, 'destroy'])->name('pembayaran.destroy');
+
     // Recurring Transaksi
     Route::resource('recurring', \App\Http\Controllers\RecurringTransaksiController::class);
     Route::post('/recurring/{recurring}/toggle', [\App\Http\Controllers\RecurringTransaksiController::class, 'toggle'])->name('recurring.toggle');
