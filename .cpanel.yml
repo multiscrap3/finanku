@@ -1,14 +1,9 @@
 ---
 deployment:
   tasks:
-    # Set permission folder yang dibutuhkan Laravel
-    - chmod -R 755 storage
-    - chmod -R 755 bootstrap/cache
-
-    # Cache config, route, view (tanpa perlu composer install)
-    - php artisan config:cache
-    - php artisan route:cache
-    - php artisan view:cache
-
-    # Jalankan migrasi database
-    - php artisan migrate --force --no-interaction
+    - /opt/cpanel/ea-php84/root/usr/bin/php /usr/local/bin/composer install --no-dev --no-interaction --prefer-dist
+    - chmod -R 755 storage bootstrap/cache
+    - /opt/cpanel/ea-php84/root/usr/bin/php artisan config:cache
+    - /opt/cpanel/ea-php84/root/usr/bin/php artisan route:cache
+    - /opt/cpanel/ea-php84/root/usr/bin/php artisan view:cache
+    - /opt/cpanel/ea-php84/root/usr/bin/php artisan migrate --force --no-interaction
