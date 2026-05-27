@@ -26,6 +26,9 @@ class HutangPiutangService
             'tanggal_jatuh_tempo' => $data['jatuh_tempo'] ?? null,
             'keterangan'          => $data['keterangan'] ?? null,
             'status'              => 'aktif',
+            'tipe_pembayaran'     => $data['tipe_pembayaran'] ?? 'sekali',
+            'jumlah_cicilan'      => ($data['tipe_pembayaran'] ?? 'sekali') === 'cicilan' ? $data['jumlah_cicilan'] : null,
+            'frekuensi_cicilan'   => ($data['tipe_pembayaran'] ?? 'sekali') === 'cicilan' ? $data['frekuensi_cicilan'] : null,
         ]);
     }
 
@@ -100,14 +103,100 @@ class HutangPiutangService
 
             // Catat pembayaran
             $pembayaran = HutangPiutangPembayaran::create([
-                'hutang_piutang_id' => $hutangPiutang->id,
+                'hutang_piutang_id'   => $hutangPiutang->id,
+                'user_id'             => auth()->id(),
                 'sumber_transaksi_id' => $data['sumber_transaksi_id'],
-                'jumlah' => $jumlahBayar,
-                'tanggal' => $data['tanggal'] ?? Carbon::now(),
-                'keterangan' => $data['keterangan'] ?? null,
+                'jumlah'              => $jumlahBayar,
+                'tanggal'             => $data['tanggal'] ?? Carbon::now(),
+                'keterangan'          => $data['keterangan'] ?? null,
             ]);
 
             return $pembayaran;
+        });
+    }
+
+    /**
+     * Edit record pembayaran yang sudah ada.
+     * Reversal saldo lama, terapkan saldo baru.
+     */
+    public function editPembayaran(HutangPiutangPembayaran $pembayaran, array $data): HutangPiutangPembayaran
+    {
+        return DB::transaction(function () use ($pembayaran, $data) {
+            $hp      = $pembayaran->hutangPiutang;
+            $selisih = $data['jumlah'] - $pembayaran->jumlah;
+
+            if ($selisih > $hp->sisa) {
+                throw new \Exception('Jumlah pembayaran melebihi sisa hutang/piutang');
+            }
+
+            // Reversal saldo sumber lama
+            if ($pembayaran->sumber_transaksi_id) {
+                $sumberLama = SumberTransaksi::findOrFail($pembayaran->sumber_transaksi_id);
+                if ($hp->jenis === 'hutang') {
+                    $sumberLama->increment('saldo_saat_ini', $pembayaran->jumlah);
+                } else {
+                    $sumberLama->decrement('saldo_saat_ini', $pembayaran->jumlah);
+                }
+            }
+
+            // Terapkan sumber & jumlah baru
+            $sumberBaru = SumberTransaksi::findOrFail($data['sumber_transaksi_id']);
+            if ($hp->jenis === 'hutang') {
+                if ($sumberBaru->saldo_saat_ini < $data['jumlah']) {
+                    throw new \Exception('Saldo sumber transaksi tidak mencukupi');
+                }
+                $sumberBaru->decrement('saldo_saat_ini', $data['jumlah']);
+            } else {
+                $sumberBaru->increment('saldo_saat_ini', $data['jumlah']);
+            }
+
+            // Update jumlah_terbayar di hutang_piutang
+            $hp->decrement('jumlah_terbayar', $pembayaran->jumlah);
+            $hp->increment('jumlah_terbayar', $data['jumlah']);
+
+            // Sync status lunas
+            $hp->refresh();
+            if ($hp->sisa <= 0) {
+                $hp->update(['status' => 'lunas']);
+            } elseif ($hp->status === 'lunas') {
+                $hp->update(['status' => 'aktif']);
+            }
+
+            $pembayaran->update([
+                'sumber_transaksi_id' => $data['sumber_transaksi_id'],
+                'jumlah'              => $data['jumlah'],
+                'tanggal'             => $data['tanggal'],
+                'keterangan'          => $data['keterangan'] ?? null,
+            ]);
+
+            return $pembayaran->fresh();
+        });
+    }
+
+    /**
+     * Hapus record pembayaran dan reversal saldo.
+     */
+    public function hapusPembayaran(HutangPiutangPembayaran $pembayaran): bool
+    {
+        return DB::transaction(function () use ($pembayaran) {
+            $hp = $pembayaran->hutangPiutang;
+
+            if ($pembayaran->sumber_transaksi_id) {
+                $sumber = SumberTransaksi::findOrFail($pembayaran->sumber_transaksi_id);
+                if ($hp->jenis === 'hutang') {
+                    $sumber->increment('saldo_saat_ini', $pembayaran->jumlah);
+                } else {
+                    $sumber->decrement('saldo_saat_ini', $pembayaran->jumlah);
+                }
+            }
+
+            $hp->decrement('jumlah_terbayar', $pembayaran->jumlah);
+
+            if ($hp->status === 'lunas') {
+                $hp->update(['status' => 'aktif']);
+            }
+
+            return $pembayaran->delete();
         });
     }
 
